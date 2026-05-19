@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-AccountInfo", "Recip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetTerminalInfo", "Recipe-GetTerminalInfo\Recipe-GetTerminalInfo.csproj", "{6B3E9B05-17F2-FD9F-E1FD-720BA39FF22D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetSymbolList", "Recipe-GetSymbolList\Recipe-GetSymbolList.csproj", "{D9D46C9F-580C-4CBF-8EF0-693401F8D72F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6B3E9B05-17F2-FD9F-E1FD-720BA39FF22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B3E9B05-17F2-FD9F-E1FD-720BA39FF22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B3E9B05-17F2-FD9F-E1FD-720BA39FF22D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D46C9F-580C-4CBF-8EF0-693401F8D72F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D46C9F-580C-4CBF-8EF0-693401F8D72F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D46C9F-580C-4CBF-8EF0-693401F8D72F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D46C9F-580C-4CBF-8EF0-693401F8D72F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
