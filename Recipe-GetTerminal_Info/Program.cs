@@ -2,6 +2,9 @@
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetTerminal_Info;
 
+/// <summary>
+/// Get Terminal Info Recipe
+/// </summary>
 public class Program
 {
     static void Main(string[] args)

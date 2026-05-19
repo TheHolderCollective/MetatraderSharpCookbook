@@ -2,6 +2,9 @@
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace MetatraderSharp_Examples;
 
+/// <summary>
+/// Get Account Info Recipe
+/// </summary>
 internal class Program
 {
     static void Main(string[] args)
