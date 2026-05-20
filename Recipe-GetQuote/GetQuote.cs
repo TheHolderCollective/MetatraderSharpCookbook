@@ -30,7 +30,6 @@ public class GetQuote
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
-
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
