@@ -3,27 +3,29 @@ using MetatraderSharp.MTsocketAPI.Responses;
 namespace MetatraderSharp_Examples;
 
 /// <summary>
-/// Get Account Info Recipe
+/// Get Quote Recipe
 /// </summary>
-public class GetAccountInfo
+public class GetQuote
 {
     static void Main(string[] args)
     {
-
         MetatraderClient mtClient = new();
 
         try
         {
-            Account myAccount = mtClient.GetAccountInfo();
+            Quote goodQuote = mtClient.GetQuote("GBPJPY");
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
-                Console.WriteLine(myAccount);
-
+            Console.WriteLine("Quote result for a recognised symbol: ");
+            Console.WriteLine(goodQuote);
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
 
+            Quote badQuote = mtClient.GetQuote("GBPJPYL");
 
-
+            Console.WriteLine("\nQuote result for an invalid symbol: ");
+            Console.WriteLine(badQuote);
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
         }
         catch (Exception ex)
         {
