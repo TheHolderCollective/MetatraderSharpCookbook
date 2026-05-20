@@ -5,7 +5,7 @@ namespace MetatraderSharp_Examples;
 /// <summary>
 /// Get Account Info Recipe
 /// </summary>
-internal class Program
+public class GetAccountInfo
 {
     static void Main(string[] args)
     {
@@ -14,9 +14,14 @@ internal class Program
 
         try
         {
-            Account? myAccount = mtClient.GetAccountInfo();
+            Account myAccount = mtClient.GetAccountInfo();
 
-            Console.WriteLine(myAccount);
+            if (mtClient.LastQueryStatus == QueryStatus.OK)
+                Console.WriteLine(myAccount);
+
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+
         }
         catch (Exception ex)
         {
