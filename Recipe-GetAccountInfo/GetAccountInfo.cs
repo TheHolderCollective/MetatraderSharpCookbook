@@ -14,6 +14,12 @@ public class GetAccountInfo
 
         try
         {
+            if (!mtClient.IsStatusOK)
+            {
+                Console.WriteLine("Unable to connect to request URI.");
+                return;
+            }
+
             Account myAccount = mtClient.GetAccountInfo();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
@@ -21,8 +27,6 @@ public class GetAccountInfo
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
-
-
 
         }
         catch (Exception ex)

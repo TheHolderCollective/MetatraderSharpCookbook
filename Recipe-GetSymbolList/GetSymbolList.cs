@@ -14,6 +14,12 @@ public class GetSymbolList
 
         try
         {
+            if (!mtClient.IsStatusOK)
+            {
+                Console.WriteLine("Unable to connect to request URI.");
+                return;
+            }
+
             List<Symbol> symbolList = mtClient.GetSymbolList();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)

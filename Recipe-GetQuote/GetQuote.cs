@@ -13,6 +13,12 @@ public class GetQuote
 
         try
         {
+            if (!mtClient.IsStatusOK)
+            {
+                Console.WriteLine("Unable to connect to request URI.");
+                return;
+            }
+
             Quote goodQuote = mtClient.GetQuote("GBPJPY");
 
             Console.WriteLine("Quote result for a recognised symbol: ");

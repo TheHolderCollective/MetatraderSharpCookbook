@@ -13,6 +13,12 @@ public class GetTerminalInfo
 
         try
         {
+            if (!mtClient.IsStatusOK)
+            {
+                Console.WriteLine("Unable to connect to request URI.");
+                return;
+            }
+
             TerminalInfo? myTerminal = mtClient.GetTerminalInfo();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)

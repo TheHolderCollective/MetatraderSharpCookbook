@@ -10,11 +10,17 @@ public class GetPriceHistory
 
         try
         {
+            if (!mtClient.IsStatusOK)
+            {
+                Console.WriteLine("Unable to connect to request URI.");
+                return;
+            }
+
             // Note: Use GetOHLCs() if no other info but the rates is required 
             // List<Rate> justOHLCs = mtClient.GetOHLCs("EURUSD", TimeFrame.PERIOD_H1, "2025.01.21 17:10:00", "2025.01.22 20:00:00");
             //
 
-            PriceHistory myPriceHistory = mtClient.GetPriceHistoryResponse("EURUSD", TimeFrame.PERIOD_M5, "2025.01.21 17:10:00", "2025.01.22 20:00:00");
+            PriceHistory myPriceHistory = mtClient.GetPriceHistoryResponse("EURUSD", TimeFrameMT4.PERIOD_M5, "2025.01.21 17:10:00", "2025.01.22 20:00:00");
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
