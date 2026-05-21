@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetQuote", "Recipe-G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetPriceHistory", "Recipe-GetPriceHistory\Recipe-GetPriceHistory.csproj", "{D55561AD-3E4E-4171-A13F-4E90DD5CD134}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-TrackPrices", "Recipe-TrackPrices\Recipe-TrackPrices.csproj", "{3394BAE7-2EA6-4B1A-880D-9A9BDB38DE49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D55561AD-3E4E-4171-A13F-4E90DD5CD134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D55561AD-3E4E-4171-A13F-4E90DD5CD134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D55561AD-3E4E-4171-A13F-4E90DD5CD134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3394BAE7-2EA6-4B1A-880D-9A9BDB38DE49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3394BAE7-2EA6-4B1A-880D-9A9BDB38DE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3394BAE7-2EA6-4B1A-880D-9A9BDB38DE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3394BAE7-2EA6-4B1A-880D-9A9BDB38DE49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

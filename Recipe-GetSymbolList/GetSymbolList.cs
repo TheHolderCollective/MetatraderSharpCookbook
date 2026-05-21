@@ -9,12 +9,12 @@ public class GetSymbolList
 {
     static void Main(string[] args)
     {
-        MetatraderClient mtClient = new();
+        MetatraderClient mtClient = new(TerminalType.MT4);
         int symbolCount = 0;
 
         try
         {
-            if (!mtClient.IsStatusOK)
+            if (!mtClient.StatusIsOK)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;

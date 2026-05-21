@@ -9,11 +9,11 @@ public class GetTerminalInfo
 {
     static void Main(string[] args)
     {
-        MetatraderClient mtClient = new();
+        MetatraderClient mtClient = new(TerminalType.MT4);
 
         try
         {
-            if (!mtClient.IsStatusOK)
+            if (!mtClient.StatusIsOK)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -30,7 +30,6 @@ public class GetTerminalInfo
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
-
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
