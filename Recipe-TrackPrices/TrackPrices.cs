@@ -1,4 +1,5 @@
 ﻿using MetatraderSharp;
+using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
 using System.Text;
@@ -12,7 +13,7 @@ public class TrackPricesRecipe
 {
     static async Task Main(string[] args)
     {
-        MetatraderClient mtClient = new(TerminalType.MT4);
+        MT4Client mtClient = new();
 
         try
         {

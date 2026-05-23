@@ -1,4 +1,5 @@
 ﻿using MetatraderSharp;
+using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetSymbolList;
 
@@ -9,7 +10,7 @@ public class GetSymbolList
 {
     static void Main(string[] args)
     {
-        MetatraderClient mtClient = new(TerminalType.MT4);
+        MT4Client mtClient = new();
         int symbolCount = 0;
 
         try

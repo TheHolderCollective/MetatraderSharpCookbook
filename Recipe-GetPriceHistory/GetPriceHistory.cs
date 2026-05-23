@@ -1,4 +1,5 @@
 ﻿using MetatraderSharp;
+using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetPriceHistory;
 
@@ -6,7 +7,7 @@ public class GetPriceHistory
 {
     static void Main(string[] args)
     {
-        MetatraderClient mtClient = new(TerminalType.MT4);
+        MT4Client mtClient = new();
 
         try
         {
