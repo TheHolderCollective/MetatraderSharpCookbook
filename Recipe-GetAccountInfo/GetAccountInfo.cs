@@ -8,7 +8,7 @@ namespace MetatraderSharp_Examples;
 /// </summary>
 public class GetAccountInfo
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
 
         MT4Client mtClient = new();
@@ -21,7 +21,7 @@ public class GetAccountInfo
                 return;
             }
 
-            Account myAccount = mtClient.GetAccountInfo();
+            Account myAccount = await mtClient.GetAccountInfoAsync();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
                 Console.WriteLine(myAccount);

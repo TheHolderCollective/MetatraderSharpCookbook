@@ -8,7 +8,7 @@ namespace Recipe_GetTerminal_Info;
 /// </summary>
 public class GetTerminalInfo
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
 
@@ -20,7 +20,7 @@ public class GetTerminalInfo
                 return;
             }
 
-            TerminalInfo? myTerminal = mtClient.GetTerminalInfo();
+            TerminalInfo myTerminal = await mtClient.GetTerminalInfoAsync();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
                 Console.WriteLine(myTerminal);

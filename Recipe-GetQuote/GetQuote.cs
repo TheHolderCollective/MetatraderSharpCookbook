@@ -7,7 +7,7 @@ namespace MetatraderSharp_Examples;
 /// </summary>
 public class GetQuote
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
 
@@ -19,14 +19,14 @@ public class GetQuote
                 return;
             }
 
-            Quote goodQuote = mtClient.GetQuote("GBPJPY");
+            Quote goodQuote = await mtClient.GetQuoteAsync("GBPJPY");
 
             Console.WriteLine("Quote result for a recognised symbol: ");
             Console.WriteLine(goodQuote);
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
 
-            Quote badQuote = mtClient.GetQuote("GBPJPYL");
+            Quote badQuote = await mtClient.GetQuoteAsync("GBPJPYL");
 
             Console.WriteLine("\nQuote result for an invalid symbol: ");
             Console.WriteLine(badQuote);

@@ -8,7 +8,7 @@ namespace Recipe_GetSymbolList;
 /// </summary>
 public class GetSymbolList
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
         int symbolCount = 0;
@@ -21,7 +21,15 @@ public class GetSymbolList
                 return;
             }
 
-            List<Symbol> symbolList = mtClient.GetSymbolList();
+            SymbolList? symbolResponse = await mtClient.GetSymbolListResponseAsync();
+
+            Console.WriteLine("\nSymbol list response:");
+            Console.WriteLine(symbolResponse);
+
+            Console.Write("\nPress any key to continue...\n");
+            Console.ReadLine();
+
+            List<Symbol> symbolList = symbolResponse.Symbols;
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
@@ -36,18 +44,12 @@ public class GetSymbolList
                         Console.WriteLine();
                 }
 
-                Console.Write("\nPress any key to continue...");
-                Console.ReadLine();
-
-                SymbolList? symbolResponse = mtClient.GetSymbolListResponse();
-                Console.WriteLine("\nComplete deserialized JSON response from get symbol list query:");
-                Console.WriteLine(symbolResponse);
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
+            Console.WriteLine($"\n\nQueryStatus = {mtClient.LastQueryStatus}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
 
-            Console.Write("Press any key to exit...");
+            Console.WriteLine("\nPress any key to exit...");
             Console.ReadLine();
 
         }

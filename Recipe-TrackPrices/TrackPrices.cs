@@ -25,7 +25,7 @@ public class TrackPricesRecipe
 
             // Up to a maximum of 5 symbols can be tracked
             // Assignment of result not necessary (only if needed)
-            TrackPricesResponse ptResponse = mtClient.PriceTracker(TrackingCommand.Start, "EURUSD","CADJPY","GBPJPY");
+            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD","CADJPY","GBPJPY");
 
             Console.WriteLine("Track prices response:");
             Console.WriteLine(ptResponse + "\n");
@@ -36,8 +36,8 @@ public class TrackPricesRecipe
             if (mtClient.LastQueryStatus == QueryStatus.Error)
             {
                 // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
-                mtClient.PriceTracker(TrackingCommand.Stop);
                 Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");
+                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
                 return;
             }
 
@@ -60,7 +60,7 @@ public class TrackPricesRecipe
                 Console.WriteLine("Price tracking ended.");
 
                 // Stop tracking prices
-                mtClient.PriceTracker(TrackingCommand.Stop);
+                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
                 return;
             }
 
@@ -68,7 +68,7 @@ public class TrackPricesRecipe
             byte[] buffer = new byte[4096];
 
             int priceCount = 0;
-            const int maxPricesReceived = 15;
+            const int maxCount = 30;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -83,7 +83,7 @@ public class TrackPricesRecipe
                     Console.WriteLine($"{priceCount + 1}: {output}");
 
                     // close websocket after maxPricesReceived items received
-                    if (++priceCount >= maxPricesReceived)
+                    if (++priceCount >= maxCount)
                     {
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
                         Console.WriteLine(result.CloseStatusDescription);
@@ -97,7 +97,7 @@ public class TrackPricesRecipe
             }
 
             // Stop tracking prices
-            mtClient.PriceTracker(TrackingCommand.Stop, "EURUSD");
+            await mtClient.TrackPricesAsync(TrackingCommand.Stop);
 
             Console.WriteLine($"\nWebsocket state: {webSocket.State}");
             Console.WriteLine("Price tracking ended.");
