@@ -7,7 +7,7 @@ A collection of sample programs which demonstrate how to use the MetatraderSharp
 [10-Jun-2026] - Still under development.
 
 ## Usage Requirements
-Successful usuage of the MetatraderSharp library requires:
+Successful usage of the MetatraderSharp library requires:
 - Metatrader 4/Metratrader 5 to be installed 
 - a version of the MTsocketAPI installed in your Metatrader
 
