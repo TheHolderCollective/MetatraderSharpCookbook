@@ -1,6 +1,6 @@
 ﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MetatraderClient.MT4;
+using MetatraderSharp.MTsocketAPI.Responses.MT4;
 namespace MetatraderSharp_Examples;
 
 /// <summary>
