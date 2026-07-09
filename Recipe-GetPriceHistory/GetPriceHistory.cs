@@ -17,7 +17,7 @@ public class GetPriceHistory
                 return;
             }
 
-            PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeFrameMT4.PERIOD_M5, "2025.01.22 17:10:00", "2025.01.22 20:00:00");
+            PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, "2026.07.09 12:10:00", "2026.07.09 15:10:00");
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
