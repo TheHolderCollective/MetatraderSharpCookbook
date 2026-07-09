@@ -9,8 +9,7 @@ namespace MetatraderSharp_Examples;
 public class GetAccountInfo
 {
     static async Task Main(string[] args)
-    {
-
+    { 
         MT4Client mtClient = new();
 
         try
@@ -33,7 +32,6 @@ public class GetAccountInfo
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
-
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }

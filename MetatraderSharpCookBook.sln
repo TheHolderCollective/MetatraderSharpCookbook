@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-TrackPrices", "Recip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetSymbolInfo", "Recipe-SymbolInfo\Recipe-GetSymbolInfo.csproj", "{D5423268-DD04-45FF-8EE6-EE9903E9C5F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-Indicators", "Recipe-Indicators\Recipe-Indicators.csproj", "{04250189-88E2-4563-A317-B8BDF17FA3FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D5423268-DD04-45FF-8EE6-EE9903E9C5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5423268-DD04-45FF-8EE6-EE9903E9C5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5423268-DD04-45FF-8EE6-EE9903E9C5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04250189-88E2-4563-A317-B8BDF17FA3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04250189-88E2-4563-A317-B8BDF17FA3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04250189-88E2-4563-A317-B8BDF17FA3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04250189-88E2-4563-A317-B8BDF17FA3FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

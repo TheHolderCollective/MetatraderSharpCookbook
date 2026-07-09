@@ -3,6 +3,9 @@ using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetPriceHistory;
 
+/// <summary>
+/// Recipe showing how to get the price history of a symbol
+/// </summary>
 public class GetPriceHistory
 {
     static async Task Main(string[] args)
