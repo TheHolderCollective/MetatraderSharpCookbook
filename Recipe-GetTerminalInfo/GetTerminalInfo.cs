@@ -10,7 +10,7 @@ public class GetTerminalInfo
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new();
+        MT4Client mtClient = new(); 
 
         try
         {
@@ -19,7 +19,7 @@ public class GetTerminalInfo
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
             }
-
+            // TerminalInfo is common to both MT4 and MT5.
             TerminalInfo myTerminal = await mtClient.GetTerminalInfoAsync();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)

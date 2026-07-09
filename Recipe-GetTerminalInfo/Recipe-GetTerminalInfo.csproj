@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <Reference Include="MetatraderSharp">
-      <HintPath>..\..\MetatraderSharp\MetatraderSharp\bin\Release\net9.0\MetatraderSharp.dll</HintPath>
+      <HintPath>..\..\MetatraderSharp\MetatraderSharp\bin\Debug\net9.0\MetatraderSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
