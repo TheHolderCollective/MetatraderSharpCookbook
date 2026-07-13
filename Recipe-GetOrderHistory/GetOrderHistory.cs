@@ -21,10 +21,10 @@ public class GetOrderHistory
             }
 
             DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-            DateTime previousMonth = new DateTime(currentDate.Year, currentDate.Month - 1, currentDate.Day);
+            DateTime previousTwoWeeks = new DateTime(currentDate.Year, currentDate.Month - 1, currentDate.Day + 14);
 
             string toDate = currentDate.ToString();
-            string fromDate = previousMonth.ToString();
+            string fromDate = previousTwoWeeks.ToString();
 
             OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate);
 

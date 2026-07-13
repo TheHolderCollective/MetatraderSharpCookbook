@@ -10,7 +10,7 @@ public class GetOrderList
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new MT4Client();
+        MT4Client mtClient = new();
 
         try
         {
