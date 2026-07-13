@@ -1,16 +1,16 @@
 ﻿using MetatraderSharp;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
-namespace Recipe_GetOrderHistory;
+namespace Recipe_GetOrderList;
 
 /// <summary>
-/// Recipe showing how to get order history
+/// Recipe showing how to get list of current or pending orders
 /// </summary>
-public class GetOrderHistory
+public class GetOrderList
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new();
+        MT4Client mtClient = new MT4Client();
 
         try
         {
@@ -20,18 +20,12 @@ public class GetOrderHistory
                 return;
             }
 
-            DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-            DateTime previousMonth = new DateTime(currentDate.Year, currentDate.Month - 1, currentDate.Day);
-
-            string toDate = currentDate.ToString();
-            string fromDate = previousMonth.ToString();
-
-            OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate);
+            OrderList orderList = await mtClient.GetOrderListAsync();
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
-                Console.WriteLine($"Order History from [{fromDate}] to [{toDate}]: ");
-                Console.WriteLine(orderHistory);
+                Console.WriteLine($"Order List: ");
+                Console.WriteLine(orderList);
             }
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
