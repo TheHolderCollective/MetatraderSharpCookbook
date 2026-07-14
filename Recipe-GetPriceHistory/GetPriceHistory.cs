@@ -11,6 +11,8 @@ public class GetPriceHistory
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
+        string fromDate = "2026.07.09 12:10:00";
+        string toDate = "2026.07.09 15:10:00";
 
         try
         {
@@ -20,13 +22,14 @@ public class GetPriceHistory
                 return;
             }
 
-            PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, "2026.07.09 12:10:00", "2026.07.09 15:10:00");
+            PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, fromDate, toDate);
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
                 Console.WriteLine($"{nameof(myPriceHistory.Msg)}: {myPriceHistory.Msg}");
                 Console.WriteLine($"{nameof(myPriceHistory.Symbol)}: {myPriceHistory.Symbol}");
                 Console.WriteLine($"{nameof(myPriceHistory.TimeFrame)}: {myPriceHistory.TimeFrame}");
+                Console.WriteLine($"Start Date: {fromDate} \nEnd Date: {toDate}");
                 Console.WriteLine($"Available OHLCs count: {myPriceHistory.Rates.Count}");
 
                 List<Rate> justOHLCs = myPriceHistory.Rates;
