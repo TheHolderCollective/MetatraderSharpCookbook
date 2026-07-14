@@ -21,7 +21,7 @@ public class GetIndicators
                 return;
             }
 
-            AverageTrueRangeIndicator atrIndicator = await mtClient.GetATRValues(14, 0, "EURUSD", TimeframesMT4.Period_M5);
+            Indicator atrIndicator = await mtClient.GetATRValues(14, 0, "EURUSD", TimeframesMT4.Period_M5);
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
@@ -32,7 +32,7 @@ public class GetIndicators
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
 
-            MovingAverageIndicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 1, "EURUSD", TimeframesMT4.Period_M5);
+            Indicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 1, "EURUSD", TimeframesMT4.Period_M5);
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
@@ -45,7 +45,7 @@ public class GetIndicators
 
             string indicatorName = "OsMa";
 
-            CustomIndicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, 0, 0, "EURUSD", TimeframesMT4.Period_M5);
+            Indicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, 0, 0, "EURUSD", TimeframesMT4.Period_M5);
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
             {
