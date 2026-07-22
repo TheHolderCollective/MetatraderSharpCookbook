@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderInfo", "Reci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-PlaceCloseOrder", "Recipe-PlaceModifyCloseOrder\Recipe-PlaceCloseOrder.csproj", "{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-ModifyOrders", "Recipe-ModifyOrders\Recipe-ModifyOrders.csproj", "{15A0C04A-7951-42BD-92B1-222A0FFA5992}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15A0C04A-7951-42BD-92B1-222A0FFA5992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15A0C04A-7951-42BD-92B1-222A0FFA5992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15A0C04A-7951-42BD-92B1-222A0FFA5992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15A0C04A-7951-42BD-92B1-222A0FFA5992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

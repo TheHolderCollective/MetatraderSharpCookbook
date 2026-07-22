@@ -30,11 +30,11 @@ public class PlaceCloseOrder
             // --> First place some orders
 
             // Place buy order
-            OrderSend openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, "0.02"); // comment: "Placed by cookbook recipe");
+            OrderSend openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, 0.02); // comment: "Placed by cookbook recipe");
             openedOrders.Add(openOrderResponse);
 
             // Place sell order
-            openOrderResponse = await mtClient.PlaceOrderAsync("CADJPY", OrderType.ORDER_TYPE_SELL, "0.02"); // comment: "Placed by cookbook recipe");
+            openOrderResponse = await mtClient.PlaceOrderAsync("CADJPY", OrderType.ORDER_TYPE_SELL, 0.02); // comment: "Placed by cookbook recipe");
             openedOrders.Add(openOrderResponse);
 
             // Get list of valid tickets
@@ -43,7 +43,14 @@ public class PlaceCloseOrder
             Console.WriteLine("List of opened orders: ");
             PrintList<OrderSend>(openedOrders);
 
-         
+            // Get order info 
+            Console.WriteLine("\nOrder info for opened orders: ");
+            foreach (var ticket in openTickets)
+            {
+                OrderInfo info = await mtClient.GetOrderInfoAsync(ticket);
+                Console.WriteLine(info);
+            }
+
             // --> Partially close the orders
             foreach (var ticket in openTickets)
             {
@@ -54,7 +61,7 @@ public class PlaceCloseOrder
             Console.WriteLine("\nList of partially closed orders: ");
             PrintList<OrderClose>(partiallyClosedOrders);
 
-   
+
             // --> Completely close the orders
             foreach (var ticket in openTickets)
             {
