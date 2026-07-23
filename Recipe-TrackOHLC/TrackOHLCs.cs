@@ -2,18 +2,30 @@
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
-using System.Text;
 using System.Net.WebSockets;
-namespace Recipe_TrackPrices;
+using System.Text;
+namespace Recipe_TrackOHLC;
 
-/// <summary>
-/// Recipe for live tracking of symbol prices 
-/// </summary>
-public class TrackPricesRecipe
+public class TrackOHLCs
 {
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
+        TrackOHLCRequest ohlcRequest = new();
+
+        SymbolRequest symbolRequest1 = new()
+        {
+            Symbol = "EURUSD",
+            TimeFrame = TimeframesMT4.Period_M1,
+            Depth = 5
+        };
+
+        SymbolRequest symbolRequest2 = new()
+        {
+            Symbol = "CADJPY",
+            TimeFrame = TimeframesMT4.Period_M5,
+            Depth = 2
+        };
 
         try
         {
@@ -23,30 +35,32 @@ public class TrackPricesRecipe
                 return;
             }
 
-            // Up to a maximum of 5 symbols can be tracked (if running MTsocketAPI Demo)
-            // Assignment of result not necessary (only if needed)
-            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD","CADJPY","GBPJPY");
+            // Add symbol requests 
+            ohlcRequest.OHLCRequests = new();
+            ohlcRequest.OHLCRequests.Add(symbolRequest1);
+            ohlcRequest.OHLCRequests.Add(symbolRequest2);
 
-            Console.WriteLine("Track prices response:");
-            Console.WriteLine(ptResponse + "\n");
+            TrackOHLCResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
+
+            Console.WriteLine("OHLC requests submitted:\n " +  ohlcRequest);
+            Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse);
 
             // Check that tracking started successfully
-            // This can also be checked by the ErrorID property of the TrackPricesResponse object
-            // E.g. ptResponse.ErrorID == 0
+            // This can also be checked by the ErrorID property of the TrackOHLCResponse object
+            // E.g. ohlcResponse.ErrorID == 0
             if (mtClient.LastQueryStatus == QueryStatus.Error)
             {
                 // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
                 Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+                var res = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
+                Console.WriteLine(res);
                 return;
             }
-
-            Console.WriteLine("Price tracking started.");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
             using var webSocket = new ClientWebSocket();
-            await webSocket.ConnectAsync(new Uri($"ws://127.0.0.1:{mtClient.WebSocketPort}"), CancellationToken.None);
+            await webSocket.ConnectAsync(new Uri($"ws://127.0.0.1:81"), CancellationToken.None);
 
             if (webSocket.State == WebSocketState.Open)
             {
@@ -59,8 +73,8 @@ public class TrackPricesRecipe
                 Console.WriteLine("Websocket unable to connect.\n");
                 Console.WriteLine("Price tracking ended.");
 
-                // Stop tracking prices
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+                // Stop tracking OHLCs
+                await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
                 return;
             }
 
@@ -68,7 +82,7 @@ public class TrackPricesRecipe
             byte[] buffer = new byte[4096];
 
             int priceCount = 0;
-            const int maxCount = 30;
+            const int maxCount = 4;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -79,10 +93,10 @@ public class TrackPricesRecipe
                 {
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
-                    var output = JsonConvert.DeserializeObject<TrackPrices>(jsonData);
+                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOHLC>(jsonData) : null;
                     Console.WriteLine($"{priceCount + 1}: {output}");
 
-                    // close websocket after maxPricesReceived items received
+                    // close websocket after max number of OHLC data items received
                     if (++priceCount >= maxCount)
                     {
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
@@ -97,17 +111,17 @@ public class TrackPricesRecipe
             }
 
             // Stop tracking prices
-            await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+            var response = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
+            Console.WriteLine(response);
 
             Console.WriteLine($"\nWebsocket state: {webSocket.State}");
             Console.WriteLine("Price tracking ended.");
-
         }
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
-    }
 
+    }
 }
