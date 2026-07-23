@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderList", "Reci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderInfo", "Recipe-GetOrderInfo\Recipe-GetOrderInfo.csproj", "{7C3C0EAF-D635-436C-AF02-70222B2C3B5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-PlaceCloseOrder", "Recipe-PlaceModifyCloseOrder\Recipe-PlaceCloseOrder.csproj", "{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-PlaceAndCloseOrders", "Recipe-PlaceModifyCloseOrder\Recipe-PlaceAndCloseOrders.csproj", "{C7CC8B72-555D-41A7-BA78-186ED27E4E6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-ModifyOrders", "Recipe-ModifyOrders\Recipe-ModifyOrders.csproj", "{15A0C04A-7951-42BD-92B1-222A0FFA5992}"
 EndProject

@@ -61,7 +61,7 @@ public class ModifyOrders
             Console.WriteLine("\nOrders before changes: ");
             PrintList<OrderInfo>(orderInfoList);
 
-            // Modify orders
+            // Modify orders by setting take profit and stop loss
             foreach (var order in orderInfoList)
             {
                 double stopLoss = CalculateStopLoss(order, stopLossPips, pipValue);
