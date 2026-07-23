@@ -43,18 +43,16 @@ public class ModifyOrders
             openedOrders.Add(openOrderResponse);
             orderInfoList.Add(orderInfo);
 
-            // Get a quote for the USDCAD pair and place a sell limit order
+            // Get a quote for the USDCAD pair and place a sell limit order with an expiration date of 1 day from now
             Quote priceQuote = await mtClient.GetQuoteAsync("USDCAD");
-            double limitPrice = priceQuote.Ask + (20 * pipValue);
+            double limitPrice = priceQuote.Bid + (20 * pipValue);
 
-            Console.WriteLine("Quote: \n" + priceQuote);
-            Console.WriteLine("Limit price: " + limitPrice);
+            string expirationDate = DateTime.Now.AddDays(1).ToString();
 
-            openOrderResponse = await mtClient.PlaceOrderAsync("USDCAD", OrderType.ORDER_TYPE_SELL_LIMIT, orderVolume, limitPrice);
+            openOrderResponse = await mtClient.PlaceOrderAsync("USDCAD", OrderType.ORDER_TYPE_SELL_LIMIT, orderVolume, limitPrice, expiration: expirationDate);
             orderInfo = await mtClient.GetOrderInfoAsync(openOrderResponse.Ticket);
             openedOrders.Add(openOrderResponse);
             orderInfoList.Add(orderInfo);
-
 
             // Output responses 
             Console.WriteLine("Open orders:");
@@ -77,6 +75,7 @@ public class ModifyOrders
             PrintList<OrderModify>(modifiedOrders);
 
             orderInfoList.Clear();
+
             foreach (var order in openedOrders)
             {
                 orderInfo = await mtClient.GetOrderInfoAsync(order.Ticket);
