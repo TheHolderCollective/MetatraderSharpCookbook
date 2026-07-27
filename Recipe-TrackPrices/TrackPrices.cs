@@ -14,7 +14,8 @@ public class TrackPricesRecipe
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
-
+        string[] symbolList = { "EURUSD", "CADJPY", "GBPCHF" };
+    
         try
         {
             if (!mtClient.StatusIsOK)
@@ -23,12 +24,11 @@ public class TrackPricesRecipe
                 return;
             }
 
-            // Up to a maximum of 5 symbols can be tracked (if running MTsocketAPI Demo)
-            // Assignment of result not necessary (only if needed)
-            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD","CADJPY","GBPJPY");
+            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, symbolList);
 
             Console.WriteLine("Track prices response:");
             Console.WriteLine(ptResponse + "\n");
+
 
             // Check that tracking started successfully
             // This can also be checked by the ErrorID property of the TrackPricesResponse object
