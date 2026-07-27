@@ -21,7 +21,7 @@ public class GetOrderHistory
             }
 
             DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-            DateTime previousTwoWeeks = new DateTime(currentDate.Year, currentDate.Month - 1, currentDate.Day + 14);
+            DateTime previousTwoWeeks = DateTwoWeeksAgo(currentDate);
 
             string toDate = currentDate.ToString();
             string fromDate = previousTwoWeeks.ToString();
@@ -43,5 +43,10 @@ public class GetOrderHistory
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
 
+    }
+
+    public static DateTime DateTwoWeeksAgo(DateTime currentDate)
+    {
+        return currentDate.AddDays(-14);
     }
 }
