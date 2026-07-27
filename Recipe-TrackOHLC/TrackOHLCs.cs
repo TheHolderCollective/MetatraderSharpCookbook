@@ -9,23 +9,8 @@ namespace Recipe_TrackOHLC;
 public class TrackOHLCs
 {
     static async Task Main(string[] args)
-    {
+    {   
         MT4Client mtClient = new();
-        TrackOHLCRequest ohlcRequest = new();
-
-        SymbolRequest symbolRequest1 = new()
-        {
-            Symbol = "EURUSD",
-            TimeFrame = TimeframesMT4.Period_M1,
-            Depth = 5
-        };
-
-        SymbolRequest symbolRequest2 = new()
-        {
-            Symbol = "CADJPY",
-            TimeFrame = TimeframesMT4.Period_M5,
-            Depth = 2
-        };
 
         try
         {
@@ -35,11 +20,25 @@ public class TrackOHLCs
                 return;
             }
 
-            // Add symbol requests 
-            ohlcRequest.OHLCRequests = new();
-            ohlcRequest.OHLCRequests.Add(symbolRequest1);
-            ohlcRequest.OHLCRequests.Add(symbolRequest2);
+            // Define some symbol requests
+            SymbolRequest symbolRequest1 = new()
+            {
+                Symbol = "EURUSD",
+                TimeFrame = TimeframesMT4.Period_M1,
+                Depth = 5
+            };
 
+            SymbolRequest symbolRequest2 = new()
+            {
+                Symbol = "CADJPY",
+                TimeFrame = TimeframesMT4.Period_M5,
+                Depth = 2
+            };
+
+            // Add symbol requests to a TrackOHLCRequest object
+            TrackOHLCRequest ohlcRequest = new(symbolRequest1, symbolRequest2);
+
+            // Track symbols
             TrackOHLCResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
 
             Console.WriteLine("OHLC requests submitted:\n " +  ohlcRequest);
@@ -82,7 +81,7 @@ public class TrackOHLCs
             byte[] buffer = new byte[4096];
 
             int priceCount = 0;
-            const int maxCount = 4;
+            const int maxCount = 5;
 
             while (webSocket.State == WebSocketState.Open)
             {
