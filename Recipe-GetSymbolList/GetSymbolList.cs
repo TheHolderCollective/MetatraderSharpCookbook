@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp;
 using MetatraderSharp.MetatraderClient;
+using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetSymbolList;
 

@@ -14,8 +14,7 @@ public class TrackPricesRecipe
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
-        string[] symbolList = { "EURUSD", "CADJPY", "GBPCHF" };
-    
+
         try
         {
             if (!mtClient.StatusIsOK)
@@ -24,7 +23,7 @@ public class TrackPricesRecipe
                 return;
             }
 
-            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, symbolList);
+            TrackPricesResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD", "CADJPY", "GBPCHF");
 
             Console.WriteLine("Track prices response:");
             Console.WriteLine(ptResponse + "\n");
