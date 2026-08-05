@@ -17,6 +17,7 @@ public class GetOrderHistory
             if (!mtClient.StatusIsOK)
             {
                 Console.WriteLine("Unable to connect to request URI.");
+
                 return;
             }
 
