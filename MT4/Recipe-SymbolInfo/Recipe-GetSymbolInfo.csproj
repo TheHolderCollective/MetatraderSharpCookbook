@@ -3,20 +3,18 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>MetatraderSharp_Examples</RootNamespace>
+    <RootNamespace>Recipe_SymbolInfo</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="MetatraderSharp">
-      <HintPath>..\..\MetatraderSharp\MetatraderSharp\bin\Debug\net9.0\MetatraderSharp.dll</HintPath>
+      <HintPath>..\..\..\MetatraderSharp\MetatraderSharp\bin\Debug\net9.0\MetatraderSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
