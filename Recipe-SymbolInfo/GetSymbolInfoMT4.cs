@@ -5,7 +5,7 @@ namespace Recipe_GetSymbolInfo;
 /// <summary>
 /// Get SymbolInfo Recipe
 /// </summary>
-public class GetSymbolInfo
+public class GetSymbolInfoMT4
 {
     static async Task Main(string[] args)
     {
@@ -23,6 +23,7 @@ public class GetSymbolInfo
 
             SymbolInformation correctSymbolInfo = await mtClient.GetSymbolInformationResponseAsync(validSymbol);
 
+            Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
             Console.WriteLine($"Symbol information (valid symbol): {validSymbol} ");
             Console.WriteLine(correctSymbolInfo);
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");

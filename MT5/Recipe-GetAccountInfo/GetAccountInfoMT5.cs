@@ -6,7 +6,7 @@ namespace Recipe_GetAccountInfo;
 // <summary>
 /// Get Account Info Recipe
 /// </summary>
-public class GetAccountInfo
+public class GetAccountInfoMT5
 {
     static async Task Main(string[] args)
     {
@@ -21,6 +21,8 @@ public class GetAccountInfo
             }
 
             Account myAccount = await mtClient.GetAccountInfoAsync();
+
+            Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
 
             if (mtClient.LastQueryStatus == QueryStatus.OK)
                 Console.WriteLine(myAccount);
