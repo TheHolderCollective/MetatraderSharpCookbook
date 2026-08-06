@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderHistory", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderList", "MT5\Recipe-GetOrderList\Recipe-GetOrderList.csproj", "{236C03CC-BF0B-4989-A8AA-2EB02AC8B447}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderInfo", "MT5\Recipe-GetOrderInfo\Recipe-GetOrderInfo.csproj", "{8FA6D32A-068D-49E3-A46C-065BE0296625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{236C03CC-BF0B-4989-A8AA-2EB02AC8B447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{236C03CC-BF0B-4989-A8AA-2EB02AC8B447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{236C03CC-BF0B-4989-A8AA-2EB02AC8B447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA6D32A-068D-49E3-A46C-065BE0296625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA6D32A-068D-49E3-A46C-065BE0296625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA6D32A-068D-49E3-A46C-065BE0296625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA6D32A-068D-49E3-A46C-065BE0296625}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +166,7 @@ Global
 		{64DDFB23-2438-4CEB-B4C5-E48053695C8D} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{8A786B67-243E-5538-94BB-809AA59B07A8} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{236C03CC-BF0B-4989-A8AA-2EB02AC8B447} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
+		{8FA6D32A-068D-49E3-A46C-065BE0296625} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8519A632-0ABD-4504-80C4-EEACAEA1060C}
