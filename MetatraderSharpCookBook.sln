@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-GetOrderInfo", "MT5\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-Indicators", "MT5\Recipe-Indicators\Recipe-Indicators.csproj", "{7FADAD54-EE11-4348-B697-3A270D4DBE66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-PlaceAndCloseOrders", "Recipe-PlaceAndCloseOrders\Recipe-PlaceAndCloseOrders.csproj", "{23FB4529-0962-46CB-A204-944E023801EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{7FADAD54-EE11-4348-B697-3A270D4DBE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FADAD54-EE11-4348-B697-3A270D4DBE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FADAD54-EE11-4348-B697-3A270D4DBE66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FB4529-0962-46CB-A204-944E023801EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FB4529-0962-46CB-A204-944E023801EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FB4529-0962-46CB-A204-944E023801EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FB4529-0962-46CB-A204-944E023801EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +180,7 @@ Global
 		{236C03CC-BF0B-4989-A8AA-2EB02AC8B447} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{8FA6D32A-068D-49E3-A46C-065BE0296625} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{7FADAD54-EE11-4348-B697-3A270D4DBE66} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
+		{23FB4529-0962-46CB-A204-944E023801EB} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8519A632-0ABD-4504-80C4-EEACAEA1060C}

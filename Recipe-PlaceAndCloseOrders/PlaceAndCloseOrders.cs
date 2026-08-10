@@ -1,17 +1,18 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
-using MetatraderSharp.MTsocketAPI.Responses.MT4;
+using MetatraderSharp.MTsocketAPI.Responses.MT5;
 using System.Globalization;
 namespace Recipe_PlaceAndCloseOrders;
 
 /// <summary>
-/// Recipe showing how to place and close orders in MT4
+/// Recipe showing how to place and close orders in MT5
 /// </summary>
-public class PlaceAndCloseOrders
+internal class PlaceAndCloseOrders
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new();
+
+        MT5Client mtClient = new();
         List<OrderSendResponse> openedOrders = new();
         List<OrderCloseResponse> partiallyClosedOrders = new();
         List<OrderCloseResponse> fullyClosedOrders = new();
@@ -38,7 +39,7 @@ public class PlaceAndCloseOrders
             // --> First place some orders
 
             // Place buy order
-            OrderSendResponse openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, initialVolume);
+            OrderSendResponse openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, initialVolume, orderFillType: OrderFillType.ORDER_FILLING_FOK);
             openedOrders.Add(openOrderResponse);
 
             // Place sell order
@@ -52,11 +53,11 @@ public class PlaceAndCloseOrders
             double stopLoss = CalculateStopLoss(OrderType.ORDER_TYPE_BUY, priceQuote.Ask, stopLossPips, pipValue);
             double takeProfit = CalculateTakeProfit(OrderType.ORDER_TYPE_BUY, priceQuote.Ask, takeProfitPips, pipValue);
 
-            openOrderResponse = await mtClient.PlaceOrderAsync("USDCAD", OrderType.ORDER_TYPE_BUY, initialVolume, 0, stopLoss, takeProfit);
+            openOrderResponse = await mtClient.PlaceOrderAsync("USDCAD", OrderType.ORDER_TYPE_BUY, initialVolume, false, 0, stopLoss, takeProfit);
             openedOrders.Add(openOrderResponse);
 
             // Get list of valid tickets
-            openTickets = openedOrders.Where(x => x.Ticket != -1).Select(x => x.Ticket).ToList();
+            openTickets = openedOrders.Where(x => x.Order != -1).Select(x => x.Order).ToList();
 
             Console.WriteLine("List of opened orders: ");
             PrintList<OrderSendResponse>(openedOrders);
@@ -79,23 +80,24 @@ public class PlaceAndCloseOrders
             Console.WriteLine("\nList of partially closed orders: ");
             PrintList<OrderCloseResponse>(partiallyClosedOrders);
 
-
             // --> Completely close the orders
+            // Ticket number remains the same in MT5 after an order is partially closed. 
             foreach (var ticket in openTickets)
             {
-                long newTicketNumber = await mtClient.FindNewTicketNumber(ticket);
-                OrderCloseResponse closeOrderReponse = await mtClient.CloseOrderAsync(newTicketNumber);
+                OrderCloseResponse closeOrderReponse = await mtClient.CloseOrderAsync(ticket);
                 fullyClosedOrders.Add(closeOrderReponse);
             }
 
             Console.WriteLine("\nList of fully closed orders: ");
             PrintList<OrderCloseResponse>(fullyClosedOrders);
+
         }
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
+
     }
 
     public static double CalculateStopLoss(string orderType, double price, double pips, double pipValue)
@@ -133,6 +135,7 @@ public class PlaceAndCloseOrders
 
         return takeProfit;
     }
+
     public static void PrintList<T>(List<T> myList)
     {
         foreach (var item in myList)
@@ -141,3 +144,4 @@ public class PlaceAndCloseOrders
         }
     }
 }
+
