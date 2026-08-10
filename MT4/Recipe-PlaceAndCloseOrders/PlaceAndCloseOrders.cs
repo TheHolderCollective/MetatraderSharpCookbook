@@ -9,9 +9,9 @@ public class PlaceAndCloseOrders
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
-        List<OrderSend> openedOrders = new();
-        List<OrderClose> partiallyClosedOrders = new();
-        List<OrderClose> fullyClosedOrders = new();
+        List<OrderSendResponse> openedOrders = new();
+        List<OrderCloseResponse> partiallyClosedOrders = new();
+        List<OrderCloseResponse> fullyClosedOrders = new();
         List<long> openTickets = new();
 
         double initialVolume = 0.02;
@@ -35,7 +35,7 @@ public class PlaceAndCloseOrders
             // --> First place some orders
 
             // Place buy order
-            OrderSend openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, initialVolume);
+            OrderSendResponse openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_BUY, initialVolume);
             openedOrders.Add(openOrderResponse);
 
             // Place sell order
@@ -56,7 +56,7 @@ public class PlaceAndCloseOrders
             openTickets = openedOrders.Where(x => x.Ticket != -1).Select(x => x.Ticket).ToList();
 
             Console.WriteLine("List of opened orders: ");
-            PrintList<OrderSend>(openedOrders);
+            PrintList<OrderSendResponse>(openedOrders);
 
             // Get order info 
             Console.WriteLine("\nOrder info for opened orders: ");
@@ -69,24 +69,24 @@ public class PlaceAndCloseOrders
             // --> Partially close the orders
             foreach (var ticket in openTickets)
             {
-                OrderClose closeOrderReponse = await mtClient.CloseOrderAsync(ticket, sellVolume);
+                OrderCloseResponse closeOrderReponse = await mtClient.CloseOrderAsync(ticket, sellVolume);
                 partiallyClosedOrders.Add(closeOrderReponse);
             }
 
             Console.WriteLine("\nList of partially closed orders: ");
-            PrintList<OrderClose>(partiallyClosedOrders);
+            PrintList<OrderCloseResponse>(partiallyClosedOrders);
 
 
             // --> Completely close the orders
             foreach (var ticket in openTickets)
             {
                 long newTicketNumber = await mtClient.FindNewTicketNumber(ticket);
-                OrderClose closeOrderReponse = await mtClient.CloseOrderAsync(newTicketNumber);
+                OrderCloseResponse closeOrderReponse = await mtClient.CloseOrderAsync(newTicketNumber);
                 fullyClosedOrders.Add(closeOrderReponse);
             }
 
             Console.WriteLine("\nList of fully closed orders: ");
-            PrintList<OrderClose>(fullyClosedOrders);
+            PrintList<OrderCloseResponse>(fullyClosedOrders);
         }
         catch (Exception ex)
         {

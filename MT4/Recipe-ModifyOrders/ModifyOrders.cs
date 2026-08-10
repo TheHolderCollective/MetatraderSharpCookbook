@@ -9,10 +9,10 @@ public class ModifyOrders
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
-        List<OrderSend> openedOrders = new();
         List<OrderInfo> orderInfoList = new();
-        List<OrderModify> modifiedOrders = new();
-        List<OrderClose> closedOrders = new();
+        List<OrderSendResponse> openedOrders = new();
+        List<OrderModifyResponse> modifiedOrders = new();
+        List<OrderCloseResponse> closedOrders = new();
 
         double orderVolume = 0.01;
         double pipValue = 0.0001;
@@ -32,7 +32,7 @@ public class ModifyOrders
             }
 
             // Place a sell order and get its info
-            OrderSend openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_SELL, orderVolume, comment: "test market buy");
+            OrderSendResponse openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_SELL, orderVolume, comment: "test market buy");
             OrderInfo orderInfo = await mtClient.GetOrderInfoAsync(openOrderResponse.Ticket);
             openedOrders.Add(openOrderResponse);
             orderInfoList.Add(orderInfo);
@@ -56,7 +56,7 @@ public class ModifyOrders
 
             // Output responses 
             Console.WriteLine("Open orders:");
-            PrintList<OrderSend>(openedOrders);
+            PrintList<OrderSendResponse>(openedOrders);
 
             Console.WriteLine("\nOrders before changes: ");
             PrintList<OrderInfo>(orderInfoList);
@@ -67,12 +67,12 @@ public class ModifyOrders
                 double stopLoss = CalculateStopLoss(order, stopLossPips, pipValue);
                 double takeProfit = CalculateTakeProfit(order, takeProfitPips, pipValue);
 
-                OrderModify modifiedOrder = await mtClient.ModifyOrderAsync(order.Trade.Ticket, stopLoss, takeProfit);
+                OrderModifyResponse modifiedOrder = await mtClient.ModifyOrderAsync(order.Trade.Ticket, stopLoss, takeProfit);
                 modifiedOrders.Add(modifiedOrder);
             }
 
             Console.WriteLine("\nModified Orders: ");
-            PrintList<OrderModify>(modifiedOrders);
+            PrintList<OrderModifyResponse>(modifiedOrders);
 
             orderInfoList.Clear();
 
@@ -88,12 +88,12 @@ public class ModifyOrders
             // Close orders
             foreach (var order in openedOrders)
             {
-                OrderClose orderCloseResponse = await mtClient.CloseOrderAsync(order.Ticket);
+                OrderCloseResponse orderCloseResponse = await mtClient.CloseOrderAsync(order.Ticket);
                 closedOrders.Add(orderCloseResponse);
             }
 
             Console.WriteLine("\n Closed orders: ");
-            PrintList<OrderClose>(closedOrders);
+            PrintList<OrderCloseResponse>(closedOrders);
         }
         catch (Exception ex)
         {
