@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-Indicators", "MT5\Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-PlaceAndCloseOrders", "Recipe-PlaceAndCloseOrders\Recipe-PlaceAndCloseOrders.csproj", "{23FB4529-0962-46CB-A204-944E023801EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipe-ModifyOrders", "MT5\Recipe-ModifyOrders\Recipe-ModifyOrders.csproj", "{5D6F79B4-907D-47ED-95E1-DCB605A9C926}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{23FB4529-0962-46CB-A204-944E023801EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23FB4529-0962-46CB-A204-944E023801EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23FB4529-0962-46CB-A204-944E023801EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6F79B4-907D-47ED-95E1-DCB605A9C926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6F79B4-907D-47ED-95E1-DCB605A9C926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6F79B4-907D-47ED-95E1-DCB605A9C926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6F79B4-907D-47ED-95E1-DCB605A9C926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +187,7 @@ Global
 		{8FA6D32A-068D-49E3-A46C-065BE0296625} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{7FADAD54-EE11-4348-B697-3A270D4DBE66} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 		{23FB4529-0962-46CB-A204-944E023801EB} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
+		{5D6F79B4-907D-47ED-95E1-DCB605A9C926} = {F5D2596D-372B-455A-B62B-7BAD88BD011F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8519A632-0ABD-4504-80C4-EEACAEA1060C}
