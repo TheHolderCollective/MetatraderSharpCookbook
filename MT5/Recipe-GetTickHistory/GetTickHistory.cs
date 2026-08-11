@@ -1,5 +1,4 @@
 ﻿using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
 namespace Recipe_GetTickHistory;
 

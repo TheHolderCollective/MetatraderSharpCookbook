@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
 namespace Recipe_GetAccountInfo;
 
@@ -24,7 +23,7 @@ public class GetAccountInfoMT5
 
             Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
                 Console.WriteLine(myAccount);
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");

@@ -24,7 +24,7 @@ public class GetPriceHistory
 
             PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, fromDate, toDate);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"{nameof(myPriceHistory.Msg)}: {myPriceHistory.Msg}");
                 Console.WriteLine($"{nameof(myPriceHistory.Symbol)}: {myPriceHistory.Symbol}");

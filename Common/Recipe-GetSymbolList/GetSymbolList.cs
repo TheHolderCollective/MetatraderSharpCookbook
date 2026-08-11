@@ -32,7 +32,7 @@ public class GetSymbolList
 
             List<Symbol> symbolList = symbolResponse.Symbols;
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"Available symbols count: {symbolList.Count}");
                 Console.WriteLine($"Available symbol names: ");

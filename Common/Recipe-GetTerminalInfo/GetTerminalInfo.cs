@@ -22,7 +22,7 @@ public class GetTerminalInfo
             // TerminalInfo is common to both MT4 and MT5.
             TerminalInfo myTerminal = await mtClient.GetTerminalInfoAsync();
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
                 Console.WriteLine(myTerminal);
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");

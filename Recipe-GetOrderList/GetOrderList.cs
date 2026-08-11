@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 namespace Recipe_GetOrderList;
 
@@ -22,7 +21,7 @@ public class GetOrderList
 
             OrderList orderList = await mtClient.GetOrderListAsync();
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"Order List: ");
                 Console.WriteLine(orderList);

@@ -1,6 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 namespace Recipe_Indicators;
 
@@ -23,7 +21,7 @@ public class GetIndicators
 
             Indicator atrIndicator = await mtClient.GetATRValues(14, 0, "EURUSD", TimeframesMT4.Period_M5);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine("ATR Indicator: ");
                 Console.WriteLine(atrIndicator);
@@ -34,7 +32,7 @@ public class GetIndicators
 
             Indicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 1, "EURUSD", TimeframesMT4.Period_M5);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine("MA Indicator: ");
                 Console.WriteLine(maIndicator);
@@ -47,7 +45,7 @@ public class GetIndicators
 
             Indicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, 0, 0, "EURUSD", TimeframesMT4.Period_M5);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"Custom Indicator ({indicatorName}): ");
                 Console.WriteLine(customIndicator);

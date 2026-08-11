@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
 namespace Recipe_GetOrderInfo;
 
@@ -28,7 +27,7 @@ class GetOrderInfo
 
             OrderInfo orderInfo = await mtClient.GetOrderInfoAsync(ticketNumber);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"\nOrder Info - Ticket {ticketNumber}: ");
             }

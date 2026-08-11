@@ -29,7 +29,7 @@ public class GetOrderHistory
 
             OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate);
 
-            if (mtClient.LastQueryStatus == QueryStatus.OK)
+            if (mtClient.LastQueryStatus == QueryStatus.Ok)
             {
                 Console.WriteLine($"Order History from [{fromDate}] to [{toDate}]: ");
                 Console.WriteLine(orderHistory);
