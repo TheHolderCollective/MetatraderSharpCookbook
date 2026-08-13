@@ -108,7 +108,7 @@ public class TrackOHLCs
                 }
             }
 
-            // Stop tracking prices
+            // Stop tracking OHLCs
             var response = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
             Console.WriteLine(response);
 
