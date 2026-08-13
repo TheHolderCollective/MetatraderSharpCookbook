@@ -21,7 +21,7 @@ public class GetSymbolInfoMT5
 
             string validSymbol = "AUDUSD";
 
-            SymbolInformation correctSymbolInfo = await mtClient.GetSymbolInformationResponseAsync(validSymbol);
+            SymbolInformation correctSymbolInfo = await mtClient.GetSymbolInformationAsync(validSymbol);
 
             Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
             Console.WriteLine($"Symbol information (valid symbol): {validSymbol} ");
@@ -31,7 +31,7 @@ public class GetSymbolInfoMT5
 
             string invalidSymbol = "AUDUsD";
 
-            SymbolInformation incorrectSymbolInfo = await mtClient.GetSymbolInformationResponseAsync(invalidSymbol);
+            SymbolInformation incorrectSymbolInfo = await mtClient.GetSymbolInformationAsync(invalidSymbol);
 
             Console.WriteLine($"\nSymbol information (invalid symbol): {invalidSymbol} ");
             Console.WriteLine(incorrectSymbolInfo);

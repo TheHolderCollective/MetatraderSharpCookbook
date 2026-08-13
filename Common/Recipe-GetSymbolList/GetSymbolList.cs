@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetSymbolList;
@@ -22,7 +21,7 @@ public class GetSymbolList
                 return;
             }
 
-            SymbolList? symbolResponse = await mtClient.GetSymbolListResponseAsync();
+            SymbolList? symbolResponse = await mtClient.GetSymbolListAsync();
 
             Console.WriteLine("\nSymbol list response:");
             Console.WriteLine(symbolResponse);
