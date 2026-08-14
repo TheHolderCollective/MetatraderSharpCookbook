@@ -3,14 +3,13 @@ using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
 using System.Net.WebSockets;
 using System.Text;
-using System.Text.Json.Nodes;
 
 namespace Recipe_TrackOrderEvents;
 
 /// <summary>
 ///  Recipe for live tracking of order events. Order event tracking functionality is only available in MT5.
 /// </summary>
-public class TrackOrderEvents
+public class TrackingOrderEvents
 {
     static async Task Main(string[] args)
     {
@@ -62,8 +61,7 @@ public class TrackOrderEvents
             // Create a buffer for storing data
             byte[] buffer = new byte[4096];
 
-            // change this segment to use threads
-            int priceCount = 0;
+            int eventCount = 0;
             const int maxCount = 30;
 
             while (webSocket.State == WebSocketState.Open)
@@ -76,16 +74,10 @@ public class TrackOrderEvents
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
                     var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOrderEvents>(jsonData) : null;
-                    Console.WriteLine($"{priceCount + 1}: {output}"); // output isn't displaying correctly
+                    Console.WriteLine($"{eventCount + 1}: {output}"); 
 
-                    // begin temp code
-                    var formattedJson = JsonNode.Parse(jsonData);
-                    Console.WriteLine(formattedJson + "\n");
-                    // end temp code
-
-
-                    // close websocket after maxPricesReceived items received
-                    if (++priceCount >= maxCount)
+                    // close websocket after max number of events received
+                    if (++eventCount >= maxCount)
                     {
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
                         Console.WriteLine(result.CloseStatusDescription);
