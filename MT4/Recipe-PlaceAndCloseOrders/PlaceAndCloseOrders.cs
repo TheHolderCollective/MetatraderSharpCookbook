@@ -29,7 +29,7 @@ public class PlaceAndCloseOrders
             if (!CultureInfo.CurrentCulture.Name.Equals("en-US"))
                 CultureInfo.CurrentCulture = new CultureInfo("en-US");
 
-            if (!mtClient.StatusIsOK)
+            if (mtClient.StatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;

@@ -3,8 +3,13 @@ using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
 using System.Net.WebSockets;
 using System.Text;
+
 namespace Recipe_TrackOHLC;
 
+/// <summary>
+/// Recipe which demonstrates the track prices fucntionality.
+/// This works for both MT4 and MT5.
+/// </summary>
 public class TrackOHLCs
 {
     static async Task Main(string[] args)
@@ -13,7 +18,7 @@ public class TrackOHLCs
 
         try
         {
-            if (!mtClient.StatusIsOK)
+            if (mtClient.StatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -38,15 +43,13 @@ public class TrackOHLCs
             TrackOHLCRequest ohlcRequest = new(symbolRequest1, symbolRequest2);
 
             // Track symbols
-            TrackOHLCResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
+            TrackResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
 
             Console.WriteLine("OHLC requests submitted:\n " +  ohlcRequest);
             Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse);
 
             // Check that tracking started successfully
-            // This can also be checked by the ErrorID property of the TrackOHLCResponse object
-            // E.g. ohlcResponse.ErrorID == 0
-            if (mtClient.LastQueryStatus == QueryStatus.Error)
+            if (mtClient.LastQueryFailed())
             {
                 // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
                 Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");

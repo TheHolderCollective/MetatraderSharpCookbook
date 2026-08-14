@@ -13,7 +13,7 @@ public class GetOrderList
 
         try
         {
-            if (!mtClient.StatusIsOK)
+            if (mtClient.StatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;

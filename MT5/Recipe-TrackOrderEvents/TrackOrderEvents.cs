@@ -1,21 +1,20 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 using Newtonsoft.Json;
-using System.Text;
 using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json.Nodes;
 
-namespace Recipe_TrackPrices;
+namespace Recipe_TrackOrderEvents;
 
 /// <summary>
-/// Recipe for live tracking of symbol prices. 
-/// This works for both MT4 and MT5.
+///  Recipe for live tracking of order events. Order event tracking functionality is only available in MT5.
 /// </summary>
-public class TrackPricesRecipe
+public class TrackOrderEvents
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new();
+        MT5Client mtClient = new();
 
         try
         {
@@ -25,21 +24,18 @@ public class TrackPricesRecipe
                 return;
             }
 
-            TrackResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD", "CADJPY", "GBPCHF");
-
-            Console.WriteLine("Track prices response:");
-            Console.WriteLine(ptResponse + "\n");
+            TrackOrderEventsResponse eventsResponse = await mtClient.TrackOrderEventsAsync(true);
+            Console.WriteLine("Track order events response:");
+            Console.WriteLine(eventsResponse);
 
             // Check that tracking started successfully
             if (mtClient.LastQueryFailed())
             {
-                // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
                 Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
                 return;
             }
 
-            Console.WriteLine("Price tracking started.");
+            Console.WriteLine("Order event tracking started.");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -55,16 +51,18 @@ public class TrackPricesRecipe
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket unable to connect.\n");
-                Console.WriteLine("Price tracking ended.");
+                Console.WriteLine("Order event tracking ended.");
 
-                // Stop tracking prices
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+                // Stop tracking order events
+                await mtClient.TrackOrderEventsAsync(false);
                 return;
             }
+
 
             // Create a buffer for storing data
             byte[] buffer = new byte[4096];
 
+            // change this segment to use threads
             int priceCount = 0;
             const int maxCount = 30;
 
@@ -77,8 +75,14 @@ public class TrackPricesRecipe
                 {
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
-                    var output = JsonConvert.DeserializeObject<TrackPrices>(jsonData);
-                    Console.WriteLine($"{priceCount + 1}: {output}");
+                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOrderEvents>(jsonData) : null;
+                    Console.WriteLine($"{priceCount + 1}: {output}"); // output isn't displaying correctly
+
+                    // begin temp code
+                    var formattedJson = JsonNode.Parse(jsonData);
+                    Console.WriteLine(formattedJson + "\n");
+                    // end temp code
+
 
                     // close websocket after maxPricesReceived items received
                     if (++priceCount >= maxCount)
@@ -94,11 +98,11 @@ public class TrackPricesRecipe
                 }
             }
 
-            // Stop tracking prices
-            await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+            // Stop tracking order events
+            await mtClient.TrackOrderEventsAsync(false);
 
             Console.WriteLine($"\nWebsocket state: {webSocket.State}");
-            Console.WriteLine("Price tracking ended.");
+            Console.WriteLine("Order event tracking ended.");
 
         }
         catch (Exception ex)
@@ -107,5 +111,5 @@ public class TrackPricesRecipe
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
-
 }
+
