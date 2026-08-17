@@ -4,12 +4,13 @@ using Newtonsoft.Json;
 using System.Net.WebSockets;
 using System.Text;
 
-namespace Recipe_TrackOrderEvents;
+namespace Recipe_TrackMarketBook;
 
 /// <summary>
-///  Recipe for live tracking of order events. Order event tracking functionality is only available in MT5.
+///   Recipe for live tracking of market depth. This functionality is only available in MT5.
+///   Broker must supply DOM data otherwise the recipe won't work as expected.
 /// </summary>
-public class TrackingOrderEvents
+public class TrackingMarketBook
 {
     static async Task Main(string[] args)
     {
@@ -23,10 +24,11 @@ public class TrackingOrderEvents
                 return;
             }
 
-            TrackOrderEventsResponse eventsResponse = await mtClient.TrackOrderEventsAsync(true);
-            Console.WriteLine("Track order events response:");
-            Console.WriteLine(eventsResponse);
+            TrackResponse mbookResponse = await mtClient.TrackMarketBookAsync("EURUSD", "AUDCAD");
+            Console.WriteLine("Track Market Book response:");
+            Console.WriteLine(mbookResponse);
 
+         
             // Check that tracking started successfully
             if (mtClient.LastQueryFailed())
             {
@@ -34,7 +36,7 @@ public class TrackingOrderEvents
                 return;
             }
 
-            Console.WriteLine("Order event tracking started.");
+            Console.WriteLine("Market Book tracking started.");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -53,7 +55,7 @@ public class TrackingOrderEvents
                 Console.WriteLine("Order event tracking ended.");
 
                 // Stop tracking order events
-                await mtClient.TrackOrderEventsAsync(false);
+                await mtClient.TrackMarketBookAsync("");
                 return;
             }
 
@@ -61,8 +63,8 @@ public class TrackingOrderEvents
             // Create a buffer for storing data
             byte[] buffer = new byte[4096];
 
-            int eventCount = 0;
-            const int maxCount = 30;
+            int mbookCount = 0;
+            const int maxCount = 5;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -73,11 +75,13 @@ public class TrackingOrderEvents
                 {
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
-                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOrderEvents>(jsonData) : null;
-                    Console.WriteLine($"{eventCount + 1}: {output}"); 
+                    Console.WriteLine(jsonData);
 
-                    // close websocket after max number of events received
-                    if (++eventCount >= maxCount)
+                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<MarketDepth>(jsonData) : null;
+                    Console.WriteLine($"{mbookCount + 1}: {output}");
+
+                    // close websocket after max number of mbook items received
+                    if (++mbookCount >= maxCount)
                     {
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
                         Console.WriteLine(result.CloseStatusDescription);
@@ -90,12 +94,9 @@ public class TrackingOrderEvents
                 }
             }
 
-            // Stop tracking order events
-            await mtClient.TrackOrderEventsAsync(false);
-
-            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
-            Console.WriteLine("Order event tracking ended.");
-
+            mbookResponse = await mtClient.TrackMarketBookAsync("");
+            Console.WriteLine("Track Market Book response::");
+            Console.WriteLine(mbookResponse);
         }
         catch (Exception ex)
         {

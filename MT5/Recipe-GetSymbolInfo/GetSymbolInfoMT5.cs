@@ -13,7 +13,7 @@ public class GetSymbolInfoMT5
 
         try
         {
-            if (mtClient.StatusIsError)
+            if (mtClient.ClientStatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;

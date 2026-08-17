@@ -19,7 +19,7 @@ public class TrackPricesRecipe
 
         try
         {
-            if (mtClient.StatusIsError)
+            if (mtClient.ClientStatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;

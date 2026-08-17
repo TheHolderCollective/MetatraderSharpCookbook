@@ -15,7 +15,7 @@ public class GetSymbolList
 
         try
         {
-            if (mtClient.StatusIsError)
+            if (mtClient.ClientStatusIsError)
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
