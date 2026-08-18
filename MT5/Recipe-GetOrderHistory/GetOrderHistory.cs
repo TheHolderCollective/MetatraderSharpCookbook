@@ -10,6 +10,7 @@ public class GetOrderHistory
     static async Task Main(string[] args)
     {
         MT5Client mtClient = new();
+        int xDays = 14;
 
         try
 		{
@@ -19,9 +20,13 @@ public class GetOrderHistory
                 return;
             }
 
-            string fromDate = "2026.07.07 17:15:00";
-            string toDate = "2026.08.06 22:10:00";
-           
+            DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+            DateTime xDaysBeforeCurrentDate = DateXDaysAgo(currentDate, xDays);
+
+            string toDate = currentDate.ToString();
+            string fromDate = xDaysBeforeCurrentDate.ToString();
+
+
             // Change the value of the mode parameter to see the different output formats for OrderHistory
             OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate, OrderHistoryMode.ORDERS_DEALS);
 
@@ -34,6 +39,12 @@ public class GetOrderHistory
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
+    }
+
+
+    public static DateTime DateXDaysAgo(DateTime currentDate,int xDays)
+    {
+        return currentDate.AddDays(-xDays);
     }
 }
 

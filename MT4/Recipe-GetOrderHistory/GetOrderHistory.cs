@@ -11,6 +11,7 @@ public class GetOrderHistory
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
+        int xDays = 14;
 
         try
         {
@@ -22,10 +23,10 @@ public class GetOrderHistory
             }
 
             DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-            DateTime previousTwoWeeks = DateTwoWeeksAgo(currentDate);
+            DateTime xDaysBeforeCurrentDate = DateXDaysAgo(currentDate, xDays);
 
             string toDate = currentDate.ToString();
-            string fromDate = previousTwoWeeks.ToString();
+            string fromDate = xDaysBeforeCurrentDate.ToString();
 
             OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate);
 
@@ -46,8 +47,8 @@ public class GetOrderHistory
 
     }
 
-    public static DateTime DateTwoWeeksAgo(DateTime currentDate)
+    public static DateTime DateXDaysAgo(DateTime currentDate, int xDays)
     {
-        return currentDate.AddDays(-14);
+        return currentDate.AddDays(-xDays);
     }
 }
