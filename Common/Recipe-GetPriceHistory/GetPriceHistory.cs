@@ -16,7 +16,7 @@ public class GetPriceHistory
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -24,7 +24,7 @@ public class GetPriceHistory
 
             PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, fromDate, toDate);
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine($"{nameof(myPriceHistory.Msg)}: {myPriceHistory.Msg}");
                 Console.WriteLine($"{nameof(myPriceHistory.Symbol)}: {myPriceHistory.Symbol}");
@@ -42,8 +42,8 @@ public class GetPriceHistory
                 }
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
         }
         catch (Exception ex)
         {

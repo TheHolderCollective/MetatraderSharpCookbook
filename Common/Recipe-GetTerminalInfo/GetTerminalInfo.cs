@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetTerminal_Info;
 
@@ -14,7 +13,7 @@ public class GetTerminalInfo
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -22,11 +21,11 @@ public class GetTerminalInfo
             // TerminalInfo is common to both MT4 and MT5.
             TerminalInfo myTerminal = await mtClient.GetTerminalInfoAsync();
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
                 Console.WriteLine(myTerminal);
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
         }
         catch (Exception ex)
         {

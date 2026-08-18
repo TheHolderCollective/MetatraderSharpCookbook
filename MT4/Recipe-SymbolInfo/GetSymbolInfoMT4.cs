@@ -11,9 +11,9 @@ public class GetSymbolInfoMT4
     {
         MT4Client mtClient = new();
 
-		try
-		{
-            if (mtClient.ClientStatusIsError)
+        try
+        {
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -23,11 +23,11 @@ public class GetSymbolInfoMT4
 
             SymbolInformation correctSymbolInfo = await mtClient.GetSymbolInformationAsync(validSymbol);
 
-            Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
+            Console.WriteLine($"Client Type: {mtClient.ClientType}");
             Console.WriteLine($"Symbol information (valid symbol): {validSymbol} ");
             Console.WriteLine(correctSymbolInfo);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
             string invalidSymbol = "CADJPy";
 
@@ -35,12 +35,12 @@ public class GetSymbolInfoMT4
 
             Console.WriteLine($"\nSymbol information (invalid symbol): {invalidSymbol} ");
             Console.WriteLine(incorrectSymbolInfo);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }

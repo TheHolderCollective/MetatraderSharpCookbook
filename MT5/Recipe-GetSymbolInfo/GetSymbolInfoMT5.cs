@@ -13,7 +13,7 @@ public class GetSymbolInfoMT5
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -23,11 +23,11 @@ public class GetSymbolInfoMT5
 
             SymbolInformation correctSymbolInfo = await mtClient.GetSymbolInformationAsync(validSymbol);
 
-            Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
+            Console.WriteLine($"Client Type: {mtClient.ClientType}");
             Console.WriteLine($"Symbol information (valid symbol): {validSymbol} ");
             Console.WriteLine(correctSymbolInfo);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
             string invalidSymbol = "AUDUsD";
 
@@ -35,8 +35,8 @@ public class GetSymbolInfoMT5
 
             Console.WriteLine($"\nSymbol information (invalid symbol): {invalidSymbol} ");
             Console.WriteLine(incorrectSymbolInfo);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
         }
         catch (Exception ex)

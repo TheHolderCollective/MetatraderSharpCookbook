@@ -18,7 +18,7 @@ public class TrackingMarketBook
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -32,7 +32,7 @@ public class TrackingMarketBook
             // Check that tracking started successfully
             if (mtClient.LastQueryFailed())
             {
-                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");
+                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage()}");
                 return;
             }
 

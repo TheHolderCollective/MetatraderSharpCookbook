@@ -1,5 +1,4 @@
-﻿using MetatraderSharp;
-using MetatraderSharp.MetatraderClient;
+﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 namespace Recipe_GetOrderHistory;
 
@@ -15,10 +14,9 @@ public class GetOrderHistory
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
-
                 return;
             }
 
@@ -30,14 +28,14 @@ public class GetOrderHistory
 
             OrderHistory orderHistory = await mtClient.GetOrderHistoryAsync(fromDate, toDate);
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient.LastQuerySuccessful())
             {
                 Console.WriteLine($"Order History from [{fromDate}] to [{toDate}]: ");
                 Console.WriteLine(orderHistory);
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
         }
         catch (Exception ex)
         {

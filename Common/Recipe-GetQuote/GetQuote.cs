@@ -13,7 +13,7 @@ public class GetQuote
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -23,15 +23,15 @@ public class GetQuote
 
             Console.WriteLine("Quote result for a recognised symbol: ");
             Console.WriteLine(goodQuote);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
             Quote badQuote = await mtClient.GetQuoteAsync("GBPJPYL");
 
             Console.WriteLine("\nQuote result for an invalid symbol: ");
             Console.WriteLine(badQuote);
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
         }
         catch (Exception ex)
         {

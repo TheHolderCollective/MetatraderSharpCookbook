@@ -13,7 +13,7 @@ public class GetAccountInfoMT4
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -21,13 +21,13 @@ public class GetAccountInfoMT4
 
             Account myAccount = await mtClient.GetAccountInfoAsync();
 
-            Console.WriteLine($"Terminal Type: {mtClient.TerminalType}");
+            Console.WriteLine($"Account Info: ");
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
                 Console.WriteLine(myAccount);
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
         }
         catch (Exception ex)

@@ -13,7 +13,7 @@ public class GetIndicators
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -21,40 +21,40 @@ public class GetIndicators
 
             Indicator atrIndicator = await mtClient.GetATRValues(14, 0, "EURUSD", TimeframesMT5.Period_M12);
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine("ATR Indicator: ");
                 Console.WriteLine(atrIndicator);
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
 
             Indicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 5, 1, "EURUSD", TimeframesMT5.Period_M5);
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine("\nMA Indicator: ");
                 Console.WriteLine(maIndicator);
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
 
             string indicatorName = "Examples\\OsMA";
            
             Indicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, "EURUSD", TimeframesMT5.Period_M5, 0, 10);
            
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine($"\nCustom Indicator ({indicatorName}): ");
                 Console.WriteLine(customIndicator);
             }
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
         }
         catch (Exception ex)

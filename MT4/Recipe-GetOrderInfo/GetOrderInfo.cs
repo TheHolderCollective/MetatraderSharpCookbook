@@ -14,7 +14,7 @@ class GetOrderInfo
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -26,15 +26,15 @@ class GetOrderInfo
 
             OrderInfo orderInfo = await mtClient.GetOrderInfoAsync(ticketNumber);
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine($"\nOrder Info - Ticket {ticketNumber}: ");
             }
 
             Console.WriteLine(orderInfo);
 
-            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}\n");
+            Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
         }
         catch (FormatException)
         {

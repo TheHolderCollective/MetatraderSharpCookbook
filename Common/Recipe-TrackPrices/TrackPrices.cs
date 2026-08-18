@@ -19,7 +19,7 @@ public class TrackPricesRecipe
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -34,7 +34,7 @@ public class TrackPricesRecipe
             if (mtClient.LastQueryFailed())
             {
                 // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
-                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage}");
+                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage()}");
                 await mtClient.TrackPricesAsync(TrackingCommand.Stop);
                 return;
             }

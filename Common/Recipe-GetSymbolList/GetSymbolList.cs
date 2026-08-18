@@ -15,7 +15,7 @@ public class GetSymbolList
 
         try
         {
-            if (mtClient.ClientStatusIsError)
+            if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to request URI.");
                 return;
@@ -31,7 +31,7 @@ public class GetSymbolList
 
             List<Symbol> symbolList = symbolResponse.Symbols;
 
-            if (mtClient.LastQueryStatus == QueryStatus.Ok)
+            if (mtClient. LastQuerySuccessful())
             {
                 Console.WriteLine($"Available symbols count: {symbolList.Count}");
                 Console.WriteLine($"Available symbol names: ");
@@ -46,8 +46,8 @@ public class GetSymbolList
 
             }
 
-            Console.WriteLine($"\n\nQueryStatus = {mtClient.LastQueryStatus}");
-            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage}");
+            Console.WriteLine($"\n\nQueryStatus = {mtClient.LastQueryStatus()}");
+            Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
 
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadLine();
