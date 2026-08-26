@@ -104,8 +104,9 @@ public class ModifyOrders
 
     public static double CalculateStopLoss(OrderInfo orderInfo, double pips, double pipValue)
     {
-        double stopLoss;
+        ArgumentNullException.ThrowIfNull(orderInfo.Trade.Type);
 
+        double stopLoss;
         bool isBuyOrder = orderInfo.Trade.Type.Contains("buy");
 
         if (isBuyOrder)
@@ -122,9 +123,10 @@ public class ModifyOrders
 
     public static double CalculateTakeProfit(OrderInfo orderInfo, double pips, double pipValue)
     {
+        ArgumentNullException.ThrowIfNull(orderInfo.Trade.Type);
+        
         double takeProfit;
-
-        bool isBuyOrder = orderInfo.Trade.Type.Contains("buy");
+        bool isBuyOrder =  orderInfo.Trade.Type.Contains("buy");
 
         if (isBuyOrder)
         {

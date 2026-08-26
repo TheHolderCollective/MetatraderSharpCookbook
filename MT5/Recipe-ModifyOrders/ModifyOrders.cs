@@ -67,7 +67,7 @@ public class ModifyOrders
 
                 double stopLoss = CalculateStopLoss(orderInfoList[i], stopLossPips, pipValue, isLimitOrder);
                 double takeProfit = CalculateTakeProfit(orderInfoList[i], takeProfitPips, pipValue, isLimitOrder);
-                
+
                 OrderModifyResponse modifiedOrder = await mtClient.ModifyOrderAsync(ticketNumber, stopLoss, takeProfit);
                 modifiedOrders.Add(modifiedOrder);
             }
@@ -98,11 +98,11 @@ public class ModifyOrders
 
     public static double CalculateStopLoss(OrderInfo orderInfo, double pips, double pipValue, bool isLimitOrder = false)
     {
-        double openPrice = GetOpenPrice(orderInfo,isLimitOrder);
-       
+        double openPrice = GetOpenPrice(orderInfo, isLimitOrder);
+
         if (IsBuyOrder(orderInfo, isLimitOrder))
         {
-           return openPrice - (pips * pipValue);
+            return openPrice - (pips * pipValue);
         }
         else
         {
@@ -131,12 +131,17 @@ public class ModifyOrders
 
     public static bool IsLimitOrder(OrderSendResponse orderResponse)
     {
+        ArgumentNullException.ThrowIfNull(orderResponse.Type);
+
         return orderResponse.Type.Contains("LIMIT");
     }
 
     public static bool IsBuyOrder(OrderInfo orderInfo, bool isLimitOrder)
     {
-        return isLimitOrder ? orderInfo.PendingOrder[0].Type.Contains("BUY") : orderInfo.OpenedOrder[0].Type.Contains("BUY");
+        bool containsPendingBuy = orderInfo.PendingOrder[0].Type.Contains("BUY");
+        bool containsOpenedBuy = orderInfo.OpenedOrder[0].Type.Contains("BUY");
+
+        return isLimitOrder ? containsPendingBuy : containsOpenedBuy;
     }
 
     public static async Task<List<OrderInfo>> CreateOrderInfoList(List<OrderSendResponse> orderResponses, MT5Client client)
