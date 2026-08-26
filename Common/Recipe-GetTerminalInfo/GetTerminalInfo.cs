@@ -15,7 +15,7 @@ public class GetTerminalInfo
         {
             if (mtClient.ClientStatusIsError())
             {
-                Console.WriteLine("Unable to connect to request URI.");
+                Console.WriteLine("Unable to connect to a Metatrader terminal. Please check that an instance of Metatrader is running and that the MTsocketAPI EA is correcty loaded onto a chart.");
                 return;
             }
             // TerminalInfo is common to both MT4 and MT5.

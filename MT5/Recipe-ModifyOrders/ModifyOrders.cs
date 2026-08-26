@@ -27,7 +27,7 @@ public class ModifyOrders
 
             if (mtClient.ClientStatusIsError())
             {
-                Console.WriteLine("Unable to connect to request URI.");
+                Console.WriteLine("Unable to connect to a Metatrader terminal. Please check that an instance of Metatrader is running and that the MTsocketAPI EA is correcty loaded onto a chart.");
                 return;
             }
 
@@ -138,8 +138,8 @@ public class ModifyOrders
 
     public static bool IsBuyOrder(OrderInfo orderInfo, bool isLimitOrder)
     {
-        bool containsPendingBuy = orderInfo.PendingOrder[0].Type.Contains("BUY");
-        bool containsOpenedBuy = orderInfo.OpenedOrder[0].Type.Contains("BUY");
+        bool containsPendingBuy = orderInfo.PendingOrder.First().Type.Contains("BUY");
+        bool containsOpenedBuy = orderInfo.OpenedOrder.First().Type.Contains("BUY");
 
         return isLimitOrder ? containsPendingBuy : containsOpenedBuy;
     }
