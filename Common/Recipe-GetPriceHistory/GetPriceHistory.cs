@@ -1,4 +1,4 @@
-﻿using MetatraderSharp;
+﻿using MetatraderSharp.Extensions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
 namespace Recipe_GetPriceHistory;
@@ -30,9 +30,9 @@ public class GetPriceHistory
                 Console.WriteLine($"{nameof(myPriceHistory.Symbol)}: {myPriceHistory.Symbol}");
                 Console.WriteLine($"{nameof(myPriceHistory.TimeFrame)}: {myPriceHistory.TimeFrame}");
                 Console.WriteLine($"Start Date: {fromDate} \nEnd Date: {toDate}");
-                Console.WriteLine($"Available OHLCs count: {myPriceHistory.Rates.Count}");
+                Console.WriteLine($"Available OHLCs count: {myPriceHistory.RateCount()}");
 
-                List<Rate> justOHLCs = myPriceHistory.Rates;
+                List<Rate> justOHLCs = myPriceHistory.GetRates();
 
                 Console.WriteLine($"\nAvailable OHLCs:");
 
