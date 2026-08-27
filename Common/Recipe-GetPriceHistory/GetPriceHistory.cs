@@ -24,7 +24,7 @@ public class GetPriceHistory
 
             PriceHistory myPriceHistory = await mtClient.GetPriceHistoryAsync("EURUSD", TimeframesMT4.Period_M1, fromDate, toDate);
 
-            if (mtClient. LastQuerySuccessful())
+            if (mtClient.LastQuerySuccessful())
             {
                 Console.WriteLine($"{nameof(myPriceHistory.Msg)}: {myPriceHistory.Msg}");
                 Console.WriteLine($"{nameof(myPriceHistory.Symbol)}: {myPriceHistory.Symbol}");
@@ -40,6 +40,14 @@ public class GetPriceHistory
                 {
                     Console.WriteLine(ohlc);
                 }
+                Console.WriteLine();
+
+                Rate? maxOpenRate = myPriceHistory.GetMaxOpenRate();
+                Rate? minOpenRate = myPriceHistory.GetMinOpenRate();
+
+                Console.WriteLine($"Rate with maximum open value: \n{maxOpenRate}");
+                Console.WriteLine($"Rate with minimum open value: \n{minOpenRate}");
+
             }
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
