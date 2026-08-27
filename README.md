@@ -4,7 +4,7 @@ A collection of sample programs which demonstrate how to use the MetatraderSharp
 
 ## Project Status
 
-[10-Jun-2026] - Still under development.
+[27-Aug-2026] - Under review and testing.
 
 ## Usage Requirements
 Successful usage of the MetatraderSharp library requires:
