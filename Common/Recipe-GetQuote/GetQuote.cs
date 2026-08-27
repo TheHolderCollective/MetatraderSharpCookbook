@@ -25,6 +25,7 @@ public class GetQuote
             Console.WriteLine(goodQuote);
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
+            Console.WriteLine($"Error Code = {mtClient.LastErrorCode()}");
 
             Quote badQuote = await mtClient.GetQuoteAsync("GBPJPYL");
 
@@ -32,6 +33,7 @@ public class GetQuote
             Console.WriteLine(badQuote);
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
+            Console.WriteLine($"Error Code = {mtClient.LastErrorCode()}");
         }
         catch (Exception ex)
         {
