@@ -1,6 +1,7 @@
 ﻿using MetatraderSharp;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.Extensions;
 using Newtonsoft.Json;
 using System.Text;
 using System.Net.WebSockets;
@@ -25,21 +26,29 @@ public class TrackPricesRecipe
                 return;
             }
 
-            TrackResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, "EURUSD", "CADJPY", "GBPCHF");
+            string[] symbols = { "EURUSD", "CADJPYs", "GBPCHFs" };
+
+            TrackResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, symbols);
 
             Console.WriteLine("Track prices response:");
             Console.WriteLine(ptResponse + "\n");
 
-            // Check that tracking started successfully
-            if (mtClient.LastQueryFailed())
+            // Check for failures
+            if (ptResponse.SuccessCount() == 0)
             {
-                // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
-                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage()}");
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
+                Console.WriteLine("Unable to proceed.");
+                Console.WriteLine($"Tracking for all symbols failed: {ptResponse.FailedSymbols()}");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
                 return;
             }
+            else if (ptResponse.FailCount() > 0 && ptResponse.SuccessCount() > 0)
+            {
+                Console.WriteLine($"An error occured tracking one or more symbols: {ptResponse.FailedSymbols()}");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}");
+                Console.WriteLine($"Price tracking will start for: {ptResponse.SuccessfulSymbols()}\n");
+            }
 
-            Console.WriteLine("Price tracking started.");
+            Console.WriteLine($"Price tracking started.");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
