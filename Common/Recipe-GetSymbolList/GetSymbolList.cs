@@ -1,6 +1,7 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.Extensions;
 namespace Recipe_GetSymbolList;
 
 /// <summary>
@@ -23,35 +24,32 @@ public class GetSymbolList
 
             SymbolList? symbolResponse = await mtClient.GetSymbolListAsync();
 
-            Console.WriteLine("\nSymbol list response:");
-            Console.WriteLine(symbolResponse);
-
-            Console.Write("\nPress any key to continue...\n");
-            Console.ReadLine();
-
-            List<Symbol> symbolList = symbolResponse.Symbols;
-
-            if (mtClient. LastQuerySuccessful())
+            // check to see if query failed
+            if (mtClient.LastQueryFailed())
             {
-                Console.WriteLine($"Available symbols count: {symbolList.Count}");
+                Console.WriteLine("Failed to get symbol list. An error occurred.");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}");
+            }
+
+            // output symbol names if successful
+            if (mtClient.LastQuerySuccessful())
+            {
+                List<string> symbolList = symbolResponse.GetSymbolNames();
+
+                Console.WriteLine($"Available symbols count: {symbolResponse.SymbolCount()}");
                 Console.WriteLine($"Available symbol names: ");
 
                 foreach (var symbol in symbolList)
                 {
-                    Console.Write($"{symbol.Name,10} ");
+                    Console.Write($"{symbol,10} ");
 
                     if (++symbolCount % 10 == 0)
                         Console.WriteLine();
                 }
-
             }
 
             Console.WriteLine($"\n\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}");
-
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadLine();
-
         }
         catch (Exception ex)
         {
