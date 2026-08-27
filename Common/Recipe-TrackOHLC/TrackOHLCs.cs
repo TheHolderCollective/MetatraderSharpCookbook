@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.Extensions;
 using Newtonsoft.Json;
 using System.Net.WebSockets;
 using System.Text;
@@ -35,7 +36,7 @@ public class TrackOHLCs
             SymbolRequest symbolRequest2 = new()
             {
                 Symbol = "CADJPY",
-                TimeFrame = TimeframesMT4.Period_M5,
+                TimeFrame = TimeframesMT4.Period_M1,
                 Depth = 2
             };
 
@@ -46,17 +47,24 @@ public class TrackOHLCs
             TrackResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
 
             Console.WriteLine("OHLC requests submitted:\n " +  ohlcRequest);
-            Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse);
+            Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse + "\n");
 
-            // Check that tracking started successfully
-            if (mtClient.LastQueryFailed())
+            // Check for failures
+            if (ohlcResponse.SuccessCount() == 0)
             {
-                // Tracking may continue if there is a symbol select error with one of the symbols, so we send a stop command to head this off
-                Console.WriteLine($"An error occured: {mtClient.LastQueryMessage()}");
-                var res = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
-                Console.WriteLine(res);
+                Console.WriteLine("Unable to proceed.");
+                Console.WriteLine($"Tracking for all symbols failed: {ohlcResponse.FailedSymbols()}");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
                 return;
             }
+            else if (ohlcResponse.FailCount() > 0 && ohlcResponse.SuccessCount() > 0)
+            {
+                Console.WriteLine($"An error occured tracking one or more symbols: {ohlcResponse.FailedSymbols()}");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}");
+                Console.WriteLine($"OHLC tracking will start for: {ohlcResponse.SuccessfulSymbols()}\n");
+            }
+
+            Console.WriteLine($"OHLC tracking started.");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -72,7 +80,7 @@ public class TrackOHLCs
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket unable to connect.\n");
-                Console.WriteLine("Price tracking ended.");
+                Console.WriteLine("OHLC tracking ended.");
 
                 // Stop tracking OHLCs
                 await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
@@ -82,7 +90,7 @@ public class TrackOHLCs
             // Create a buffer for storing data
             byte[] buffer = new byte[4096];
 
-            int priceCount = 0;
+            int ohlcCount = 0;
             const int maxCount = 5;
 
             while (webSocket.State == WebSocketState.Open)
@@ -95,10 +103,10 @@ public class TrackOHLCs
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
                     var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOHLC>(jsonData) : null;
-                    Console.WriteLine($"{priceCount + 1}: {output}");
+                    Console.WriteLine($"{ohlcCount + 1}: {output}");
 
                     // close websocket after max number of OHLC data items received
-                    if (++priceCount >= maxCount)
+                    if (++ohlcCount >= maxCount)
                     {
                         await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
                         Console.WriteLine(result.CloseStatusDescription);
@@ -116,7 +124,7 @@ public class TrackOHLCs
             Console.WriteLine(response);
 
             Console.WriteLine($"\nWebsocket state: {webSocket.State}");
-            Console.WriteLine("Price tracking ended.");
+            Console.WriteLine("OHLC tracking ended.");
         }
         catch (Exception ex)
         {
