@@ -1,7 +1,11 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
+
 namespace Recipe_GetOrderList;
 
+/// <summary>
+/// Recipe showing how to get list of current or pending orders
+/// </summary>
 public class GetOrderList
 {
     static async Task Main(string[] args)

@@ -116,5 +116,4 @@ public class TrackPricesRecipe
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
-
 }

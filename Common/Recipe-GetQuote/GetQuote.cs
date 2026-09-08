@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
+
 namespace MetatraderSharp_Examples;
 
 /// <summary>

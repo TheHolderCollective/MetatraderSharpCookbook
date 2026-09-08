@@ -1,7 +1,7 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
-namespace Recipe_GetOrderInfo;
 
+namespace Recipe_GetOrderInfo;
 
 /// <summary>
 /// Recipe showing how to get order information from MT5 terminal

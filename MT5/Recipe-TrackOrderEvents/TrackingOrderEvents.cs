@@ -57,7 +57,6 @@ public class TrackingOrderEvents
                 return;
             }
 
-
             // Create a buffer for storing data
             byte[] buffer = new byte[4096];
 

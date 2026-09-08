@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
+
 namespace Recipe_GetOrderInfo;
 
 /// <summary>

@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
+
 namespace Recipe_GetOrderList;
 
 /// <summary>
@@ -35,6 +36,5 @@ public class GetOrderList
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
-
     }
 }

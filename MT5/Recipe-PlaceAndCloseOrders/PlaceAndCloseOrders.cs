@@ -2,6 +2,7 @@
 using MetatraderSharp.MTsocketAPI.Responses;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
 using System.Globalization;
+
 namespace Recipe_PlaceAndCloseOrders;
 
 /// <summary>
@@ -90,14 +91,12 @@ internal class PlaceAndCloseOrders
 
             Console.WriteLine("\nList of fully closed orders: ");
             PrintList<OrderCloseResponse>(fullyClosedOrders);
-
         }
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
-
     }
 
     public static double CalculateStopLoss(string orderType, double price, double pips, double pipValue)

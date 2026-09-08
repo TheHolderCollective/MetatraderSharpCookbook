@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
+
 namespace Recipe_GetOrderHistory;
 
 /// <summary>
@@ -40,7 +41,6 @@ public class GetOrderHistory
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
-
 
     public static DateTime DateXDaysAgo(DateTime currentDate,int xDays)
     {

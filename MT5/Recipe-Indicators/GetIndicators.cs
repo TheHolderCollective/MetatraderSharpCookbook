@@ -1,5 +1,6 @@
 ﻿using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses.MT5;
+
 namespace Recipe_Indicators;
 
 /// <summary>
@@ -30,7 +31,6 @@ public class GetIndicators
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
-
             Indicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 5, 1, "EURUSD", TimeframesMT5.Period_M5);
 
             if (mtClient. LastQuerySuccessful())
@@ -42,9 +42,8 @@ public class GetIndicators
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
-
             string indicatorName = "Examples\\OsMA";
-           
+  
             Indicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, "EURUSD", TimeframesMT5.Period_M5, 0, 10);
            
             if (mtClient. LastQuerySuccessful())
@@ -55,14 +54,12 @@ public class GetIndicators
 
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
-
         }
         catch (Exception ex)
         {
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
-       
     }
 }
 

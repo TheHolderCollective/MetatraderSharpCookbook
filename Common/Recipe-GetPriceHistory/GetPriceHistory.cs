@@ -1,6 +1,7 @@
 ﻿using MetatraderSharp.Extensions;
 using MetatraderSharp.MetatraderClient;
 using MetatraderSharp.MTsocketAPI.Responses;
+
 namespace Recipe_GetPriceHistory;
 
 /// <summary>
