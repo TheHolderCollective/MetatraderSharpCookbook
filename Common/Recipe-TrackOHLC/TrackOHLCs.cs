@@ -14,7 +14,7 @@ namespace Recipe_TrackOHLC;
 public class TrackOHLCs
 {
     static async Task Main(string[] args)
-    {   
+    {
         MT4Client mtClient = new();
 
         try
@@ -25,28 +25,20 @@ public class TrackOHLCs
                 return;
             }
 
-            // Define some symbol requests
-            SymbolRequest symbolRequest1 = new()
-            {
-                Symbol = "EURUSD",
-                TimeFrame = TimeframesMT4.Period_M1,
-                Depth = 5
-            };
+            // Define some valid symbol requests
+            SymbolRequest symbolRequest1 = new("EURUSD", TimeframesMT4.Period_M1, 5);
+            SymbolRequest symbolRequest2 = new("CADJPY", TimeframesMT4.Period_M1, 2);
 
-            SymbolRequest symbolRequest2 = new()
-            {
-                Symbol = "CADJPY",
-                TimeFrame = TimeframesMT4.Period_M1,
-                Depth = 2
-            };
+            // Define an invalid symbol request
+            SymbolRequest symbolRequest3 = new("CADJPPL", TimeframesMT4.Period_M1, 4);
 
             // Add symbol requests to a TrackOHLCRequest object
-            TrackOHLCRequest ohlcRequest = new(symbolRequest1, symbolRequest2);
+            TrackOHLCRequest ohlcRequest = new(symbolRequest1, symbolRequest2, symbolRequest3);
 
             // Track symbols
             TrackResponse ohlcResponse = await mtClient.TrackOHLCsAsync(ohlcRequest);
 
-            Console.WriteLine("OHLC requests submitted:\n " +  ohlcRequest);
+            Console.WriteLine("OHLC requests submitted:\n " + ohlcRequest);
             Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse + "\n");
 
             // Check for failures
@@ -131,6 +123,5 @@ public class TrackOHLCs
             string exceptionName = ex.GetType().ToString();
             Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
-
     }
 }
