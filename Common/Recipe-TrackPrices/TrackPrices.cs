@@ -1,6 +1,6 @@
 ﻿using MetatraderSharp;
 using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 using MetatraderSharp.Extensions;
 using Newtonsoft.Json;
 using System.Text;

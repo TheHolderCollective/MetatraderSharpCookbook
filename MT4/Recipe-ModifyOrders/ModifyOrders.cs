@@ -1,5 +1,5 @@
 ﻿using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 using MetatraderSharp.MTsocketAPI.Responses.MT4;
 using System.Globalization;
 

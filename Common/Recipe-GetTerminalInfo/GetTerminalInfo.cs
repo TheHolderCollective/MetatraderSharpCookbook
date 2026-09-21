@@ -1,5 +1,5 @@
 ﻿using MetatraderSharp.MetatraderClient;
-using MetatraderSharp.MTsocketAPI.Responses;
+using MetatraderSharp.MTsocketAPI.Responses.Common;
 
 namespace Recipe_GetTerminal_Info;
 
