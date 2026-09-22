@@ -20,7 +20,7 @@ public class GetIndicators
                 return;
             }
 
-            Indicator atrIndicator = await mtClient.GetATRValues(14, 0, "EURUSD", TimeframesMT5.Period_M12);
+            Indicator atrIndicator = await mtClient.GetATRIndicatorValuesAsync(14, 0, "EURUSD", TimeframesMT5.Period_M12);
 
             if (mtClient. LastQuerySuccessful())
             {
@@ -31,7 +31,7 @@ public class GetIndicators
             Console.WriteLine($"\nQueryStatus = {mtClient.LastQueryStatus()}");
             Console.WriteLine($"QueryMessage = {mtClient.LastQueryMessage()}\n");
 
-            Indicator maIndicator = await mtClient.GetMAValues(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 5, 1, "EURUSD", TimeframesMT5.Period_M5);
+            Indicator maIndicator = await mtClient.GetMAIndicatorValuesAsync(AppliedPrice.Price_Close, MA_Method.Mode_EMA, 21, 5, 1, "EURUSD", TimeframesMT5.Period_M5);
 
             if (mtClient. LastQuerySuccessful())
             {
@@ -44,7 +44,7 @@ public class GetIndicators
 
             string indicatorName = "Examples\\OsMA";
   
-            Indicator customIndicator = await mtClient.GetCustomIndicatorValues(indicatorName, "EURUSD", TimeframesMT5.Period_M5, 0, 10);
+            Indicator customIndicator = await mtClient.GetCustomIndicatorValuesAsync(indicatorName, "EURUSD", TimeframesMT5.Period_M5, 0, 10);
            
             if (mtClient. LastQuerySuccessful())
             {

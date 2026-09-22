@@ -12,8 +12,8 @@ public class GetPriceHistory
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
-        string fromDate = "2026.07.09 12:10:00";
-        string toDate = "2026.07.09 15:10:00";
+        string fromDate = "2026.09.09 12:10:00";
+        string toDate = "2026.09.09 15:10:00";
 
         try
         {
