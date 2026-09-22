@@ -20,6 +20,8 @@ public class ModifyOrders
         double stopLossPips = 30;
         double takeProfitPips = 60;
 
+        DateTimeFormatInfo dtfi;
+
         try
         {
             // Culture needs to be en-US to prevent invalid parameter errors when using doubles 
@@ -34,13 +36,11 @@ public class ModifyOrders
 
             // Place a sell order and get its info
             OrderSendResponse openOrderResponse = await mtClient.PlaceOrderAsync("EURUSD", OrderType.ORDER_TYPE_SELL, orderVolume, comment: "test market sell");
-            OrderInfo orderInfo = await mtClient.GetOrderInfoAsync(openOrderResponse.Order);
-            openedOrders.Add(openOrderResponse);
+            UpdateOrderList(openedOrders, openOrderResponse);
 
             // Place a buy order and get its info
             openOrderResponse = await mtClient.PlaceOrderAsync("AUDUSD", OrderType.ORDER_TYPE_BUY, orderVolume, comment: "test market buy");
-            orderInfo = await mtClient.GetOrderInfoAsync(openOrderResponse.Order);
-            openedOrders.Add(openOrderResponse);
+            UpdateOrderList(openedOrders, openOrderResponse);
 
             // Get a quote for the USDCAD pair and place a sell limit order with an expiration date of 1 day from now
             Quote priceQuote = await mtClient.GetQuoteAsync("USDCAD");
@@ -49,8 +49,7 @@ public class ModifyOrders
             string expirationDate = DateTime.Now.AddDays(1).ToString();
 
             openOrderResponse = await mtClient.PlaceOrderAsync("USDCAD", OrderType.ORDER_TYPE_SELL_LIMIT, orderVolume, false, limitPrice, expiration: expirationDate);
-            orderInfo = await mtClient.GetOrderInfoAsync(openOrderResponse.Order);
-            openedOrders.Add(openOrderResponse);
+            UpdateOrderList(openedOrders, openOrderResponse);
 
             // Output responses 
             Console.WriteLine("Open orders:");
@@ -139,10 +138,7 @@ public class ModifyOrders
 
     public static bool IsBuyOrder(OrderInfo orderInfo, bool isLimitOrder)
     {
-        bool containsPendingBuy = orderInfo.PendingOrder.First().Type.Contains("BUY");
-        bool containsOpenedBuy = orderInfo.OpenedOrder.First().Type.Contains("BUY");
-
-        return isLimitOrder ? containsPendingBuy : containsOpenedBuy;
+        return isLimitOrder ? orderInfo.PendingOrder.First().Type.Contains("BUY") : orderInfo.OpenedOrder.First().Type.Contains("BUY");
     }
 
     public static async Task<List<OrderInfo>> CreateOrderInfoList(List<OrderSendResponse> orderResponses, MT5Client client)
@@ -151,7 +147,7 @@ public class ModifyOrders
 
         foreach (var orderResponse in orderResponses)
         {
-            if (orderResponse.ErrorID == QueryStatus.Ok)
+            if (orderResponse.ErrorID != QueryStatus.Error)
             {
                 OrderInfo orderInfo = await client.GetOrderInfoAsync(orderResponse.Order);
                 orderInfoList.Add(orderInfo);
@@ -159,6 +155,14 @@ public class ModifyOrders
         }
 
         return orderInfoList;
+    }
+
+    public static void UpdateOrderList(List<OrderSendResponse> orderList, OrderSendResponse response)
+    {
+        if(response.ErrorID != QueryStatus.Error)
+        {
+            orderList.Add(response);
+        }
     }
 
     public static void PrintList<T>(List<T> myList)
