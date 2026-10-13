@@ -9,15 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MetatraderSharp" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4">
       <TreatAsUsed>true</TreatAsUsed>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="MetatraderSharp">
-      <HintPath>..\..\..\MetatraderSharp\MetatraderSharp\bin\Debug\net9.0\MetatraderSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -20,8 +20,6 @@ public class ModifyOrders
         double stopLossPips = 30;
         double takeProfitPips = 60;
 
-        DateTimeFormatInfo dtfi;
-
         try
         {
             // Culture needs to be en-US to prevent invalid parameter errors when using doubles 
