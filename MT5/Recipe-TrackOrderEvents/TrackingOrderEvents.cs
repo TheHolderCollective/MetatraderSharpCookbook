@@ -34,7 +34,8 @@ public class TrackingOrderEvents
                 return;
             }
 
-            Console.WriteLine("Order event tracking started.");
+            Console.WriteLine("\nOrder event tracking started.");
+            Console.WriteLine("Open or close trades in the terminal to see order event updates.\n");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81

@@ -10,6 +10,13 @@ namespace Recipe_PlaceAndCloseOrders;
 /// </summary>
 public class PlaceAndCloseOrders
 {
+    private enum TradeMode
+    {
+        Demo,
+        Contest,
+        Real
+    };
+
     static async Task Main(string[] args)
     {
         MT4Client mtClient = new();
@@ -33,6 +40,15 @@ public class PlaceAndCloseOrders
             if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to a Metatrader terminal. Please check that an instance of Metatrader is running and that the MTsocketAPI EA is correcty loaded onto a chart.");
+                return;
+            }
+
+            // Check for demo mode
+            Account accountInfo = await mtClient.GetAccountInfoAsync();
+
+            if (accountInfo.TradeMode != (int)TradeMode.Demo)
+            {
+                Console.WriteLine("Account is not in Demo mode. Unable to continue.");
                 return;
             }
 
@@ -134,6 +150,7 @@ public class PlaceAndCloseOrders
 
         return takeProfit;
     }
+
     public static void PrintList<T>(List<T> myList)
     {
         foreach (var item in myList)
