@@ -19,7 +19,6 @@ internal class PlaceAndCloseOrders
 
     static async Task Main(string[] args)
     {
-
         MT5Client mtClient = new();
         List<OrderSendResponse> openedOrders = new();
         List<OrderCloseResponse> partiallyClosedOrders = new();

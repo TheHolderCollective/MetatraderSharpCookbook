@@ -16,17 +16,18 @@ public class TrackPricesRecipe
 {
     static async Task Main(string[] args)
     {
-        MT4Client mtClient = new();
-
         try
         {
+            MT4Client mtClient = new();
+
             if (mtClient.ClientStatusIsError())
             {
                 Console.WriteLine("Unable to connect to a Metatrader terminal. Please check that an instance of Metatrader is running and that the MTsocketAPI EA is correcty loaded onto a chart.");
                 return;
             }
 
-            string[] symbols = { "EURUSD", "CADJPYs", "GBPCHFs" };
+            // let's have a mix of valid and invalid symbols
+            string[] symbols = { "EURUSD", "CADJPYs", "AUDUSD", "GBPCHFs" };
 
             TrackResponse ptResponse = await mtClient.TrackPricesAsync(TrackingCommand.Start, symbols);
 
@@ -44,11 +45,13 @@ public class TrackPricesRecipe
             else if (ptResponse.FailCount() > 0 && ptResponse.SuccessCount() > 0)
             {
                 Console.WriteLine($"An error occured tracking one or more symbols: {ptResponse.FailedSymbols()}");
-                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}");
-                Console.WriteLine($"Price tracking will start for: {ptResponse.SuccessfulSymbols()}\n");
+                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
+
+                Console.WriteLine($"Press any key to start tracking for: {ptResponse.SuccessfulSymbols()}");
+                Console.ReadLine();
             }
 
-            Console.WriteLine($"Price tracking started.");
+            Console.WriteLine($"Price tracking started.\nPress **Escape** to stop tracking\n");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -58,24 +61,55 @@ public class TrackPricesRecipe
             if (webSocket.State == WebSocketState.Open)
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
-                Console.WriteLine("Websocket successfully connected.\n");
+                Console.WriteLine("Websocket successfully connected.");
+                Console.WriteLine("Getting price data...\n");
+
+                ParameterizedThreadStart ts = new(GetPriceData);
+                Thread getPriceDataThread = new(ts);
+                getPriceDataThread.Start(webSocket);
+
+                ConsoleKeyInfo cki = new();
+
+                while (cki.Key != ConsoleKey.Escape)
+                {
+                    cki = Console.ReadKey();
+
+                    if (cki.Key == ConsoleKey.Escape)
+                    {
+                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+                    }
+                }
+
+                getPriceDataThread.Join();
             }
             else
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket unable to connect.\n");
-                Console.WriteLine("Price tracking ended.");
-
-                // Stop tracking prices
-                await mtClient.TrackPricesAsync(TrackingCommand.Stop);
-                return;
             }
 
-            // Create a buffer for storing data
-            byte[] buffer = new byte[4096];
+            // Stop tracking prices
+            await mtClient.TrackPricesAsync(TrackingCommand.Stop);
 
-            int priceCount = 0;
-            const int maxCount = 30;
+            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
+            Console.WriteLine("Price tracking ended.");
+        }
+        catch (Exception ex)
+        {
+            string exceptionName = ex.GetType().ToString();
+            Console.WriteLine($"{exceptionName}: {ex.Message}");
+        }
+    }
+
+    public static async void GetPriceData(object? socket)
+    {
+        // Create a buffer for storing data
+        byte[] buffer = new byte[4096];
+        int priceCount = 0;
+
+        if (socket is not null)
+        {
+            ClientWebSocket webSocket = (ClientWebSocket)socket;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -87,33 +121,10 @@ public class TrackPricesRecipe
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
                     var output = JsonConvert.DeserializeObject<TrackPrices>(jsonData);
-                    Console.WriteLine($"{priceCount + 1}: {output}");
 
-                    // close websocket after maxPricesReceived items received
-                    if (++priceCount >= maxCount)
-                    {
-                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                        Console.WriteLine(result.CloseStatusDescription);
-                    }
-                }
-                else
-                {
-                    await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                    Console.WriteLine(result.CloseStatusDescription);
+                    Console.WriteLine($"{++priceCount}: {output}");
                 }
             }
-
-            // Stop tracking prices
-            await mtClient.TrackPricesAsync(TrackingCommand.Stop);
-
-            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
-            Console.WriteLine("Price tracking ended.");
-
-        }
-        catch (Exception ex)
-        {
-            string exceptionName = ex.GetType().ToString();
-            Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
 }
