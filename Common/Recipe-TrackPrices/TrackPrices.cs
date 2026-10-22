@@ -44,10 +44,8 @@ public class TrackPricesRecipe
             }
             else if (ptResponse.FailCount() > 0 && ptResponse.SuccessCount() > 0)
             {
-                Console.WriteLine($"An error occured tracking one or more symbols: {ptResponse.FailedSymbols()}");
-                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
-
-                Console.WriteLine($"Press any key to start tracking for: {ptResponse.SuccessfulSymbols()}");
+                Console.WriteLine($"One or more invalid symbols requested: {ptResponse.FailedSymbols()}");
+                Console.WriteLine($"Press [Enter] to start tracking for: {ptResponse.SuccessfulSymbols()}");
                 Console.ReadLine();
             }
 
@@ -90,7 +88,7 @@ public class TrackPricesRecipe
 
             // Stop tracking prices
             await mtClient.TrackPricesAsync(TrackingCommand.Stop);
-
+            
             Console.WriteLine($"\nWebsocket state: {webSocket.State}");
             Console.WriteLine("Price tracking ended.");
         }
