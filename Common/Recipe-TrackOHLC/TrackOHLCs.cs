@@ -42,20 +42,20 @@ public class TrackOHLCs
             Console.WriteLine("\nTrack OHLC repsonse:\n " + ohlcResponse + "\n");
 
             // Check for failures
-            if (ohlcResponse.SuccessCount() == 0)
+            if (ohlcResponse.SuccessCount() == 0 && ohlcResponse.FailCount() > 0)
             {
                 Console.WriteLine("Unable to proceed.");
                 Console.WriteLine($"Tracking for all symbols failed: {ohlcResponse.FailedSymbols()}");
                 Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
                 return;
             }
-            else if (ohlcResponse.FailCount() > 0 && ohlcResponse.SuccessCount() > 0)
+            else if (ohlcResponse.SuccessCount() > 0 && ohlcResponse.FailCount() > 0)
             {
-                Console.WriteLine($"One or more invalid symbols requested: {ohlcResponse.FailedSymbols()}");
-                Console.WriteLine($"Press [Enter] to start tracking for: {ohlcResponse.SuccessfulSymbols()}");
-                Console.ReadLine();
+                Console.WriteLine($"One or more invalid symbols requested: {ohlcResponse.FailedSymbols()}\n");
             }
 
+            Console.WriteLine($"Press [Enter] to start tracking for: {ohlcResponse.SuccessfulSymbols()}");
+            Console.ReadLine();
             Console.WriteLine($"OHLC tracking started.\nPress **Escape** to stop tracking\n");
 
             // Once tracking is started, a websocket connection needs to be made
@@ -86,6 +86,7 @@ public class TrackOHLCs
                 }
 
                 getOHLCDataThread.Join();
+                Console.WriteLine($"\nWebsocket state: {webSocket.State}");
             }
             else
             {
@@ -95,9 +96,8 @@ public class TrackOHLCs
 
             // Stop tracking OHLCs
             var response = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
-            Console.WriteLine("Stop tracking response: \n" + response);
 
-            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
+            Console.WriteLine("Stop tracking response: \n" + response);
             Console.WriteLine("OHLC tracking ended.");
         }
         catch (Exception ex)

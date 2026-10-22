@@ -35,20 +35,20 @@ public class TrackPricesRecipe
             Console.WriteLine(ptResponse + "\n");
 
             // Check for failures
-            if (ptResponse.SuccessCount() == 0)
+            if (ptResponse.SuccessCount() == 0 && ptResponse.FailCount() > 0)
             {
                 Console.WriteLine("Unable to proceed.");
                 Console.WriteLine($"Tracking for all symbols failed: {ptResponse.FailedSymbols()}");
                 Console.WriteLine($"Error: {mtClient.LastQueryMessage()}\n");
                 return;
             }
-            else if (ptResponse.FailCount() > 0 && ptResponse.SuccessCount() > 0)
+            else if (ptResponse.SuccessCount() > 0 && ptResponse.FailCount() > 0)
             {
-                Console.WriteLine($"One or more invalid symbols requested: {ptResponse.FailedSymbols()}");
-                Console.WriteLine($"Press [Enter] to start tracking for: {ptResponse.SuccessfulSymbols()}");
-                Console.ReadLine();
+                Console.WriteLine($"One or more invalid symbols requested: {ptResponse.FailedSymbols()}\n");
             }
 
+            Console.WriteLine($"Press [Enter] to start tracking for: {ptResponse.SuccessfulSymbols()}");
+            Console.ReadLine();
             Console.WriteLine($"Price tracking started.\nPress **Escape** to stop tracking\n");
 
             // Once tracking is started, a websocket connection needs to be made
@@ -79,6 +79,7 @@ public class TrackPricesRecipe
                 }
 
                 getPriceDataThread.Join();
+                Console.WriteLine($"\nWebsocket state: {webSocket.State}");
             }
             else
             {
@@ -88,8 +89,7 @@ public class TrackPricesRecipe
 
             // Stop tracking prices
             await mtClient.TrackPricesAsync(TrackingCommand.Stop);
-            
-            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
+
             Console.WriteLine("Price tracking ended.");
         }
         catch (Exception ex)

@@ -67,6 +67,7 @@ public class TrackingMarketBook
                 }
 
                 getMarketBookDataThread.Join();
+                Console.WriteLine($"Websocket state: {webSocket.State}");
             }
             else
             {
