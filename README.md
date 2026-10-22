@@ -4,7 +4,7 @@ A collection of sample programs which demonstrate how to use the MetatraderSharp
 
 ## Project Status
 
-Initial release v1.0.0 available.
+Current Release Version: 1.1.0 
 
 ## Usage Requirements
 Successful usage of the MetatraderSharp library requires:
