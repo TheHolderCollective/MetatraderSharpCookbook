@@ -28,7 +28,6 @@ public class TrackingMarketBook
             Console.WriteLine("Track Market Book response:");
             Console.WriteLine(mbookResponse);
 
-         
             // Check that tracking started successfully
             if (mtClient.LastQueryFailed())
             {
@@ -36,7 +35,10 @@ public class TrackingMarketBook
                 return;
             }
 
-            Console.WriteLine("Market Book tracking started.");
+            Console.WriteLine("\n--> Please note that market book tracking only works if the broker supplies DOM data.\n");
+            Console.WriteLine($"Press [Enter] to start tracking.");
+            Console.ReadLine();
+            Console.WriteLine("Market Book tracking started.\nPress **Escape** to stop tracking\n");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -47,23 +49,53 @@ public class TrackingMarketBook
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket successfully connected.\n");
+
+                ParameterizedThreadStart ts = new(GetMarketBookData);
+                Thread getMarketBookDataThread = new(ts);
+                getMarketBookDataThread.Start(webSocket);
+
+                ConsoleKeyInfo cki = new();
+
+                while (cki.Key != ConsoleKey.Escape)
+                {
+                    cki = Console.ReadKey();
+
+                    if (cki.Key == ConsoleKey.Escape)
+                    {
+                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+                    }
+                }
+
+                getMarketBookDataThread.Join();
             }
             else
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket unable to connect.\n");
-                Console.WriteLine("Order event tracking ended.");
-
-                // Stop tracking order events
-                await mtClient.TrackMarketBookAsync("");
-                return;
             }
 
-            // Create a buffer for storing data
-            byte[] buffer = new byte[4096];
+            mbookResponse = await mtClient.TrackMarketBookAsync("");
 
-            int mbookCount = 0;
-            const int maxCount = 5;
+            Console.WriteLine("Track Market Book response::");
+            Console.WriteLine(mbookResponse);
+            Console.WriteLine("Market book tracking ended.");
+        }
+        catch (Exception ex)
+        {
+            string exceptionName = ex.GetType().ToString();
+            Console.WriteLine($"{exceptionName}: {ex.Message}");
+        }
+    }
+
+    public static async void GetMarketBookData(object? socket)
+    {
+        // Create a buffer for storing data
+        byte[] buffer = new byte[4096];
+        int depthCount = 0;
+
+        if (socket is not null)
+        {
+            ClientWebSocket webSocket = (ClientWebSocket)socket;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -74,33 +106,11 @@ public class TrackingMarketBook
                 {
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
-                    Console.WriteLine(jsonData);
+                    var output = JsonConvert.DeserializeObject<MarketDepth>(jsonData);
 
-                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<MarketDepth>(jsonData) : null;
-                    Console.WriteLine($"{mbookCount + 1}: {output}");
-
-                    // close websocket after max number of mbook items received
-                    if (++mbookCount >= maxCount)
-                    {
-                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                        Console.WriteLine(result.CloseStatusDescription);
-                    }
-                }
-                else
-                {
-                    await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                    Console.WriteLine(result.CloseStatusDescription);
+                    Console.WriteLine($"{++depthCount}: {output}");
                 }
             }
-
-            mbookResponse = await mtClient.TrackMarketBookAsync("");
-            Console.WriteLine("Track Market Book response::");
-            Console.WriteLine(mbookResponse);
-        }
-        catch (Exception ex)
-        {
-            string exceptionName = ex.GetType().ToString();
-            Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
 }
