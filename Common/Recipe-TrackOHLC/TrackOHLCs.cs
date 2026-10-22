@@ -51,12 +51,12 @@ public class TrackOHLCs
             }
             else if (ohlcResponse.FailCount() > 0 && ohlcResponse.SuccessCount() > 0)
             {
-                Console.WriteLine($"An error occured tracking one or more symbols: {ohlcResponse.FailedSymbols()}");
-                Console.WriteLine($"Error: {mtClient.LastQueryMessage()}");
-                Console.WriteLine($"OHLC tracking will start for: {ohlcResponse.SuccessfulSymbols()}\n");
+                Console.WriteLine($"One or more invalid symbols requested: {ohlcResponse.FailedSymbols()}");
+                Console.WriteLine($"Press [Enter] to start tracking for: {ohlcResponse.SuccessfulSymbols()}");
+                Console.ReadLine();
             }
 
-            Console.WriteLine($"OHLC tracking started.");
+            Console.WriteLine($"OHLC tracking started.\nPress **Escape** to stop tracking\n");
 
             // Once tracking is started, a websocket connection needs to be made
             // Default url to use for the connection: ws://127.0.0.1:81
@@ -66,24 +66,56 @@ public class TrackOHLCs
             if (webSocket.State == WebSocketState.Open)
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
-                Console.WriteLine("Websocket successfully connected.\n");
+                Console.WriteLine("Websocket successfully connected.");
+                Console.WriteLine("Getting OHLC data...\n");
+
+                ParameterizedThreadStart ts = new(GetOHLCsData);
+                Thread getOHLCDataThread = new(ts);
+                getOHLCDataThread.Start(webSocket);
+
+                ConsoleKeyInfo cki = new();
+
+                while (cki.Key != ConsoleKey.Escape)
+                {
+                    cki = Console.ReadKey();
+
+                    if (cki.Key == ConsoleKey.Escape)
+                    {
+                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
+                    }
+                }
+
+                getOHLCDataThread.Join();
             }
             else
             {
                 Console.WriteLine($"Websocket state: {webSocket.State}");
                 Console.WriteLine("Websocket unable to connect.\n");
-                Console.WriteLine("OHLC tracking ended.");
-
-                // Stop tracking OHLCs
-                await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
-                return;
             }
 
-            // Create a buffer for storing data
-            byte[] buffer = new byte[4096];
+            // Stop tracking OHLCs
+            var response = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
+            Console.WriteLine("Stop tracking response: \n" + response);
 
-            int ohlcCount = 0;
-            const int maxCount = 5;
+            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
+            Console.WriteLine("OHLC tracking ended.");
+        }
+        catch (Exception ex)
+        {
+            string exceptionName = ex.GetType().ToString();
+            Console.WriteLine($"{exceptionName}: {ex.Message}");
+        }
+    }
+
+    public static async void GetOHLCsData(object? socket)
+    {
+        // Create a buffer for storing data
+        byte[] buffer = new byte[4096];
+        int ohlcCount = 0;
+
+        if (socket is not null)
+        {
+            ClientWebSocket webSocket = (ClientWebSocket)socket;
 
             while (webSocket.State == WebSocketState.Open)
             {
@@ -94,34 +126,11 @@ public class TrackOHLCs
                 {
                     // process data and output it to the console
                     string jsonData = Encoding.ASCII.GetString(buffer, 0, result.Count);
-                    var output = (jsonData != null) ? JsonConvert.DeserializeObject<TrackOHLC>(jsonData) : null;
-                    Console.WriteLine($"{ohlcCount + 1}: {output}");
+                    var output = JsonConvert.DeserializeObject<TrackOHLC>(jsonData);
 
-                    // close websocket after max number of OHLC data items received
-                    if (++ohlcCount >= maxCount)
-                    {
-                        await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                        Console.WriteLine(result.CloseStatusDescription);
-                    }
-                }
-                else
-                {
-                    await webSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, null, CancellationToken.None);
-                    Console.WriteLine(result.CloseStatusDescription);
+                    Console.WriteLine($"{++ohlcCount}: {output}");
                 }
             }
-
-            // Stop tracking OHLCs
-            var response = await mtClient.TrackOHLCsAsync(new TrackOHLCRequest());
-            Console.WriteLine(response);
-
-            Console.WriteLine($"\nWebsocket state: {webSocket.State}");
-            Console.WriteLine("OHLC tracking ended.");
-        }
-        catch (Exception ex)
-        {
-            string exceptionName = ex.GetType().ToString();
-            Console.WriteLine($"{exceptionName}: {ex.Message}");
         }
     }
 }
