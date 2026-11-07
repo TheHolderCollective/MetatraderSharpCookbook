@@ -1,6 +1,6 @@
 ## MetatraderSharp Cookbook
 
-A collection of sample programs which demonstrate how to use the MetatraderSharp wrapper library.
+A collection of sample console apps which demonstrate how to use the MetatraderSharp wrapper library.
 
 ## Project Status
 
