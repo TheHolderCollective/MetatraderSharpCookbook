@@ -9,7 +9,7 @@ Current Release Version: 1.1.0
 ## Usage Requirements
 Successful usage of the MetatraderSharp library requires:
 - Metatrader 4/Metratrader 5 to be installed 
-- a version of the [MTsocketAPI]( https://www.mtsocketapi.com/) installed in your Metatrader
+- a version of the MTsocketAPI installed in your Metatrader
 
 ## Disclaimer
 
