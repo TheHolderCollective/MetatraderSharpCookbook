@@ -1,6 +1,6 @@
 ## MetatraderSharp Cookbook
 
-The MetatraderSharp cookbook is collection of small C# console apps which demonstrate how to use the MetatraderSharp wrapper library.
+A collection of small C# console apps which demonstrate how to use the MetatraderSharp wrapper library.
 
 ## Cookbook Overview
 | Folder| Description |
