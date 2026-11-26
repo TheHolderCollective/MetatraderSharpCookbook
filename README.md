@@ -1,4 +1,4 @@
-# MetatraderSharp Cookbook   ![Static Badge](https://img.shields.io/badge/release-v1.0.1-blue)
+# MetatraderSharp Cookbook   ![Static Badge](https://img.shields.io/badge/release-v1.1.0-blue)
 
 A collection of small C# console apps which demonstrate how to use the MetatraderSharp wrapper library.
 
