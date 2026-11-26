@@ -2,6 +2,8 @@
 
 A collection of small C# console apps which demonstrate how to use the MetatraderSharp wrapper library.
 
+![Static Badge](https://img.shields.io/badge/Framework-.NET_9_-blue)  ![Static Badge](https://img.shields.io/badge/Framework-.NET_10_-blue)
+
 ## Cookbook Overview
 The cookbook contains 26 recipes spread across 3 folders.
 
