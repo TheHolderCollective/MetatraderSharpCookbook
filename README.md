@@ -3,6 +3,8 @@
 A collection of small C# console apps which demonstrate how to use the MetatraderSharp wrapper library.
 
 ## Cookbook Overview
+The cookbook contains 26 recipes spread across 3 folders.
+
 | Folder| Description |
 | --- | --- |
 | [Common](https://github.com/TheHolderCollective/MetatraderSharpCookbook/tree/master/Common) | Recipes demonstrating functionality common to both MT4/MT5 |
